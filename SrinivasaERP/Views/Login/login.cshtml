@@ -1,0 +1,105 @@
+﻿@model SrinivasaERP.Models.LoginModel
+@{
+    ViewData["Title"] = "Login";
+}
+<!-- Font Awesome for eye icon -->
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css" />
+<link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
+<script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
+
+@if (TempData["Success"] != null)
+{
+    <div class="alert alert-success">@TempData["Success"]</div>
+}
+@if (TempData["Error"] != null)
+{
+    <div class="alert alert-danger">@TempData["Error"]</div>
+}
+
+
+
+<div style="display: flex; min-height: 100vh;">
+    <div style="flex: 1; background-color: #f5f5f5; padding: 40px; text-align: center;">
+        <h2 style="color: #c00;">SRINIVASA TOURS & TRAVELS</h2>
+        <p style="font-size: 18px;">Reliable · Safe · Affordable</p>
+        <img src="~/Images/image.png" style="max-height: 500px; margin: 80px;" />
+    </div>
+
+    <div style="flex: 1; padding: 40px;">
+        <img src="~/Images/logo.png" style="max-height: 200px; margin: 40px;" />
+        <h2>Login</h2>
+
+        <form asp-action="Login" method="post">
+            <div class="form-group">
+                <label asp-for="EmployeeIDOrEmail"></label>
+                <input asp-for="EmployeeIDOrEmail" name="EmployeeIDOrEmail" placeholder="EmployeeID Or Email" class="form-control" />
+                <span asp-validation-for="EmployeeIDOrEmail" class="text-danger"></span>
+            </div>
+
+            <div class="form-group">
+                <label asp-for="Password"></label>
+                <div style="position: relative;">
+                    <input asp-for="Password" name="Password" id="password" type="password" placeholder="Password" class="form-control" />
+                    <span onclick="togglePassword()" style="position: absolute; right: 10px; top: 8px; cursor: pointer;">
+                        <i class="fa fa-eye" id="eyeIcon"></i>
+                    </span>
+                </div>
+                <span asp-validation-for="Password" class="text-danger"></span>
+            </div>
+
+            <button type="submit" class="btn btn-primary mt-3" id="button-send" disabled>Login</button>
+        </form>
+
+        <p class="mt-3">
+            <a asp-controller="Login" asp-action="ForgotPassword"
+               data-bs-toggle="tooltip" data-bs-placement="top" title="CLICK HERE"
+               style="text-decoration: none; color: blue; cursor: pointer;">
+                Forgot Password?
+            </a>
+        </p>
+    </div>
+</div>
+
+<!-- JavaScript code -->
+<script>
+    let inputs = document.querySelectorAll('input');
+    let buttonSend = document.getElementById('button-send');
+
+    
+    let inputValidator = {
+        "EmployeeIDOrEmail": false,
+        "Password": false
+    };
+
+    inputs.forEach((input) => {
+        input.addEventListener('input', (event) => {
+            let name = event.target.getAttribute('name');
+            if (name in inputValidator) {
+                inputValidator[name] = event.target.value.length > 0;
+            }
+
+            let allTrue = Object.values(inputValidator).every(value => value === true);
+            buttonSend.disabled = !allTrue;
+        });
+    });
+
+    function togglePassword() {
+        var input = document.getElementById("password");
+        var icon = document.getElementById("eyeIcon");
+        if (input.type === "password") {
+            input.type = "text";
+            icon.classList.remove("fa-eye");
+            icon.classList.add("fa-eye-slash");
+        } else {
+            input.type = "password";
+            icon.classList.remove("fa-eye-slash");
+            icon.classList.add("fa-eye");
+        }
+    }
+
+
+    var tooltipTriggerList = [].slice.call(document.querySelectorAll('[data-bs-toggle="tooltip"]'));
+    var tooltipList = tooltipTriggerList.map(function (tooltipTriggerEl) {
+        return new bootstrap.Tooltip(tooltipTriggerEl);
+    });
+</script>
