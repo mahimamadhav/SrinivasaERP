@@ -7,7 +7,7 @@ namespace SrinivasaERP.Controllers
     public class LoginController : Controller
     {
         private readonly ILogger<LoginController> _logger;
-
+        //comment
         public LoginController(ILogger<LoginController> logger)
         {
             _logger = logger;
