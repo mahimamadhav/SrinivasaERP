@@ -79,9 +79,13 @@
             </tr>
 
             <tr>
-                <td><label for="ConfirmPassword">Confirm<br>Password</label></td>
-                <td><input type="password" placeholder="Confirm Password" required />
+                <td>@Html.LabelFor(m => m.ConfirmPassword)</td>
+                <td>
+                    @Html.PasswordFor(m => m.ConfirmPassword, new { @placeholder = "Confirm Password" })
+                    @Html.ValidationMessageFor(m => m.ConfirmPassword)
+                </td>
             </tr>
+
 
             <tr>
                 <td></td>

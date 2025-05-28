@@ -7,8 +7,7 @@ namespace SrinivasaERP.Controllers
     public class LoginController : Controller
     {
         private readonly ILogger<LoginController> _logger;
-        //comment
-        //comment
+
         public LoginController(ILogger<LoginController> logger)
         {
             _logger = logger;
@@ -23,6 +22,7 @@ namespace SrinivasaERP.Controllers
         [HttpPost]
         public IActionResult Login(LoginModel Model)
         {
+            Console.Write($"Email: {Model.EmployeeIDOrEmail}, Password: {Model.Password}");
             if (!ModelState.IsValid)
             {
                 return View("login", Model);
@@ -31,8 +31,8 @@ namespace SrinivasaERP.Controllers
             if ((Model.EmployeeIDOrEmail == "admin" || Model.EmployeeIDOrEmail == "admin@example.com") && Model.Password == "admin123")
             {
                 TempData["Success"] = "Login successful!";
-                //return RedirectToAction("Dashboard", "Login");
-                return View("login", Model);
+                return RedirectToAction("dashbord", "Login");
+                //return View("login", Model);
             }
             else
             {
@@ -65,6 +65,11 @@ namespace SrinivasaERP.Controllers
                 return View("forgotpassword");
             }
             
+        }
+        public IActionResult dashbord()
+        {
+            ViewBag.UserName = "Rajiv Sharma"; // Replace with dynamic user data
+            return View();
         }
     }
 }
