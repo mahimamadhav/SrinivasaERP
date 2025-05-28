@@ -21,7 +21,7 @@ namespace SrinivasaERP.Controllers
         {
             return View();
         }
-
+       
         public IActionResult Register()
         {
             return View();
@@ -35,8 +35,11 @@ namespace SrinivasaERP.Controllers
         {
             if (ModelState.IsValid)
             {
-                // Save to DB
-                return RedirectToAction("Login");
+                _context.Registers.Add(model); 
+                _context.SaveChanges();
+                
+                return RedirectToAction("Login", "Login");
+
             }
 
             return View(model);

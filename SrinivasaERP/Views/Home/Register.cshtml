@@ -1,95 +1,99 @@
 ﻿@model SrinivasaERP.Models.Register
-@{
-    ViewBag.Title = "Register";
+
+
+@section Scripts {
+    @* Required for validation *@
+    @{
+        await Html.RenderPartialAsync("_ValidationScriptsPartial");
+    }
 }
-<html>
-<head>
-    <style>
-        input {
-            padding-left: 15px;
-            height: 40px;
-            width: 300px;
-            border-radius: 8px;
-        }
 
-        button {
-            background-color: rgb(0, 110, 255);
-            color: white;
-            height: 40px;
-            width: 300px;
-            border-radius: 8px;
-        }
+<h1 align="center">User Registration</h1>
 
-        tr {
-            height: 65px;
-        }
-    </style>
-</head>
-<body align="center">
-    <h1 align="center">User Registration</h1>
-    @using (Html.BeginForm("Register", "Home", FormMethod.Post))
-    {
-        <table align="center">
-            <tr>
-                <td>@Html.LabelFor(m => m.Name)</td>
-                <td>
-                    @Html.TextBoxFor(m => m.Name, new { @placeholder = "Name", minlength = "2", maxlength = "25" })
-                    @Html.ValidationMessageFor(m => m.Name)
-                </td>
-            </tr>
+@using (Html.BeginForm("Register", "Home", FormMethod.Post))
+{
+    <table align="center">
+        <tr>
+            <td>@Html.LabelFor(m => m.Name)</td>
+            <td>
+                @Html.TextBoxFor(m => m.Name, new { @placeholder = "Name", minlength = "2", maxlength = "25", pattern = "^[A-Za-z]+$" })
+                @Html.ValidationMessageFor(m => m.Name)
+            </td>
+        </tr>
 
-            <tr>
-                <td>@Html.LabelFor(m => m.Surname)</td>
-                <td>
-                    @Html.TextBoxFor(m => m.Surname, new { @placeholder = "Surname", minlength = "1", maxlength = "25" })
-                    @Html.ValidationMessageFor(m => m.Surname)
-                </td>
-            </tr>
+        <tr>
+            <td>@Html.LabelFor(m => m.Surname)</td>
+            <td>
+                @Html.TextBoxFor(m => m.Surname, new { @placeholder = "Surname", minlength = "1", maxlength = "25", pattern = "^[A-Za-z]+$" })
+                @Html.ValidationMessageFor(m => m.Surname)
+            </td>
+        </tr>
 
-            <tr>
-                <td>@Html.LabelFor(m => m.Phone)</td>
-                <td>
-                    @Html.TextBoxFor(m => m.Phone, new { @placeholder = "Phone", maxlength = "13" })
-                    @Html.ValidationMessageFor(m => m.Phone)
-                </td>
-            </tr>
+        <tr>
+            <td>@Html.LabelFor(m => m.Phone)</td>
+            <td>
+                @Html.TextBoxFor(m => m.Phone, new { @placeholder = "Phone", minlenth = "13", maxlength = "13", pattern = "^[0-9]{13}$" })
+                @Html.ValidationMessageFor(m => m.Phone)
+            </td>
+        </tr>
 
-            <tr>
-                <td>@Html.LabelFor(m => m.Email)</td>
-                <td>
-                    @Html.TextBoxFor(m => m.Email, new { @placeholder = "Email", type = "email" })
-                    @Html.ValidationMessageFor(m => m.Email)
-                </td>
-            </tr>
 
-            <tr>
-                <td>@Html.LabelFor(m => m.UserID, "User ID")</td>
-                <td>
-                    @Html.TextBoxFor(m => m.UserID, new { @placeholder = "User ID", pattern = "^[A-Z]{3}[0-9]{4}$" })
-                    @Html.ValidationMessageFor(m => m.UserID)
-                </td>
-            </tr>
+        <tr>
+            <td>@Html.LabelFor(m => m.Email)</td>
+            <td>
+                @Html.TextBoxFor(m => m.Email, new { @placeholder = "Email", type = "email" })
+                @Html.ValidationMessageFor(m => m.Email)
+            </td>
+        </tr>
 
-            <tr>
-                <td>@Html.LabelFor(m => m.Password)</td>
-                <td>
-                    @Html.PasswordFor(m => m.Password, new { @placeholder = "Password", pattern = "^(?=.*[a-z])(?=.*[A-Z])(?=.*\\d)(?=.*[@$!%*?&]).{8,12}$" })
-                    @Html.ValidationMessageFor(m => m.Password)
-                </td>
-            </tr>
+        <tr>
+            <td>@Html.LabelFor(m => m.UserID, "User ID")</td>
+            <td>
+                @Html.TextBoxFor(m => m.UserID, new { @placeholder = "User ID", pattern = "^[A-Z]{3}[0-9]{4}$" })
+                @Html.ValidationMessageFor(m => m.UserID)
+            </td>
+        </tr>
 
-            <tr>
-                <td><label for="ConfirmPassword">Confirm<br>Password</label></td>
-                <td><input type="password" placeholder="Confirm Password" required />
-            </tr>
+        <tr>
+            <td>@Html.LabelFor(m => m.Password)</td>
+            <td>
+                @Html.PasswordFor(m => m.Password, new { @placeholder = "Password", pattern = "^(?=.*[a-z])(?=.*[A-Z])(?=.*\\d)(?=.*[@$!%*?&]).{8,12}$" })
+                @Html.ValidationMessageFor(m => m.Password)
+            </td>
+        </tr>
 
-            <tr>
-                <td></td>
-                <td><button type="submit">Register</button></td>
-            </tr>
-        </table>
+        <tr>
+            <td><label for="ConfirmPassword">Confirm<br />Password</label></td>
+            <td>
+                @Html.Password("ConfirmPassword", null, new { @placeholder = "Confirm Password" })
+                @Html.ValidationMessage("ConfirmPassword")
+            </td>
+        </tr>
+
+        <tr>
+            <td></td>
+            <td><button type="submit">Register</button></td>
+        </tr>
+    </table>
+}
+
+<style>
+    input {
+        padding-left: 15px;
+        height: 40px;
+        width: 300px;
+        border-radius: 8px;
     }
 
+    button {
+        background-color: rgb(0, 110, 255);
+        color: white;
+        height: 40px;
+        width: 300px;
+        border-radius: 8px;
+    }
 
-</body>
-</html>
+    tr {
+        height: 65px;
+    }
+</style>
