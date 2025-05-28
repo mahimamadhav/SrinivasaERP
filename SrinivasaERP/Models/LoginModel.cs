@@ -6,10 +6,10 @@ namespace SrinivasaERP.Models
     {
         [Required]
         [Display(Name = "Employee ID or Email")]
-        public string EmployeeIDOrEmail { get; set; }
+        public string? EmployeeIDOrEmail { get; set; }
 
         [Required]
         [Display(Name = "Password")]
-        public string Password { get; set; }
+        public string? Password { get; set; }
     }
 }
