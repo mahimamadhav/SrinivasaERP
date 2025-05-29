@@ -1,5 +1,6 @@
 using System;
 using System.Diagnostics;
+using System.Text.Json;
 using Microsoft.AspNetCore.Mvc;
 using SrinivasaERP.Data;
 using SrinivasaERP.Models;
@@ -31,8 +32,13 @@ namespace SrinivasaERP.Controllers
             return View();
         }
         [HttpPost]
-        public IActionResult Register(Register model)
+        public async Task<IActionResult> RegisterAsync(Register model)
         {
+            Console.WriteLine(model);
+            Console.WriteLine($"Email: {model.Email}, Password: {model.ConfirmPassword}");
+            string json = JsonSerializer.Serialize(model);
+            Console.WriteLine(json);
+
             if (ModelState.IsValid)
             {
                 _context.Registers.Add(model); 
