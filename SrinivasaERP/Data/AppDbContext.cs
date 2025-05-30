@@ -8,5 +8,6 @@ namespace SrinivasaERP.Data
         public AppDbContext(DbContextOptions<AppDbContext> options) : base(options) { }
 
         public DbSet<SrinivasaERP.Models.Register> Registers { get; set; }
+        
     }
 }

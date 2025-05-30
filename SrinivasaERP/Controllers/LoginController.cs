@@ -1,45 +1,69 @@
 ﻿using Microsoft.AspNetCore.Mvc;
 using SrinivasaERP.Models;
 using System.Reflection;
+using System.Data.SqlClient;
+using Microsoft.EntityFrameworkCore;
+using SrinivasaERP.Data;
+using System.Linq;
+
 
 namespace SrinivasaERP.Controllers
 {
     public class LoginController : Controller
     {
+        private readonly AppDbContext _context;
         private readonly ILogger<LoginController> _logger;
 
-        public LoginController(ILogger<LoginController> logger)
+        public LoginController(AppDbContext context, ILogger<LoginController> logger)
         {
+            _context = context;
             _logger = logger;
         }
+
 
         [HttpGet]
         public IActionResult login()
         {
             return View();
         }
-
         [HttpPost]
-        public IActionResult Login(LoginModel Model)
+        public async Task<IActionResult> Login(LoginModel model)
         {
-            Console.Write($"Email: {Model.EmployeeIDOrEmail}, Password: {Model.Password}");
             if (!ModelState.IsValid)
             {
-                return View("login", Model);
+                return View(model);
             }
-            Console.WriteLine(Model.EmployeeIDOrEmail);
-            if ((Model.EmployeeIDOrEmail == "admin" || Model.EmployeeIDOrEmail == "admin@example.com") && Model.Password == "admin123")
+
+            var input = model.EmployeeIDOrEmail?.Trim();
+            var password = model.Password?.Trim();
+
+            Console.WriteLine($"Input: {input}, {password}");
+
+            var user = await _context.Registers
+                .FirstOrDefaultAsync(u =>
+                    (u.UserID == input || u.Email == input) &&
+                    u.Password == password);
+
+            if (user != null)
             {
-                TempData["Success"] = "Login successful!";
-                return RedirectToAction("dashbord", "Login");
-                //return View("login", Model);
+                Console.WriteLine("Login successful");
+                // TODO: Set session / redirect
+                return RedirectToAction("dashbord");
             }
             else
             {
-                TempData["Error"] = "Invalid EmployeeID or Password.";
-                return View("login", Model);
+                Console.WriteLine("Login failed: user not found or password mismatch");
             }
+
+            return View(model);
         }
+
+
+
+
+
+
+
         [HttpGet]
         public IActionResult ForgotPassword()
         {

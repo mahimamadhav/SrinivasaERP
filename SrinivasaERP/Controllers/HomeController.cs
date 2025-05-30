@@ -35,7 +35,7 @@ namespace SrinivasaERP.Controllers
         {
             if (ModelState.IsValid)
             {
-                _context.Registers.Add(model); 
+                _context.Registers.Add(model);
                 _context.SaveChanges();
                 
                 return RedirectToAction("Login", "Login");
