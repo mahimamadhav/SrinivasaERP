@@ -7,26 +7,27 @@ namespace SrinivasaERP.Models
     {
         [Required(ErrorMessage = "Name is required")]
         [StringLength(25, MinimumLength = 2, ErrorMessage = "Name must be between 2 and 25 characters")]
-        [RegularExpression("^[A-Za-z]+$", ErrorMessage = "Name can contain only alphabets")]
+        [RegularExpression("^[A-Za-z ]+$", ErrorMessage = "Name can contain only alphabets")]
         public string? Name { get; set; }
 
         [Required(ErrorMessage = "Surname is required")]
         [StringLength(25, MinimumLength = 1, ErrorMessage = "Surname must be between 1 and 25 characters")]
-        [RegularExpression("^[A-Za-z]+$", ErrorMessage = "Surname can contain only alphabets")]
+        [RegularExpression("^[A-Za-z ]+$", ErrorMessage = "Surname can contain only alphabets")]
         public string? Surname { get; set; }
 
         [Required(ErrorMessage = "Phone is required")]
-        [StringLength(13, MinimumLength = 13, ErrorMessage = "Phone must be exactly 13 digits")]
-        [RegularExpression("^[0-9]{13}$", ErrorMessage = "Phone must be 13 digits only")]
+        [RegularExpression(@"\+91\d{10}", ErrorMessage = "Phone number must start with +91 and be followed by 10 digits.")]
         public string? Phone { get; set; }
+
 
         [Required(ErrorMessage = "Email is required")]
         [EmailAddress(ErrorMessage = "Invalid email format")]
         public string? Email { get; set; }
         [Key]
         [Required(ErrorMessage = "User ID is required")]
-        [RegularExpression("^[A-Z]{3}[0-9]{4}$", ErrorMessage = "User ID must be in the format AAA1234")]
+        [RegularExpression(@"^(?!.*0000$)[A-Z]{3}\d{4}$", ErrorMessage = "Code must be 3 uppercase letters followed by 4 digits and must not end with 0000.")]
         public string? UserID { get; set; }
+
 
         [Required(ErrorMessage = "Password is required")]
         [StringLength(12, MinimumLength = 8, ErrorMessage = "Password must be 8–12 characters")]

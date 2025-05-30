@@ -16,7 +16,7 @@
         <tr>
             <td>@Html.LabelFor(m => m.Name)</td>
             <td>
-                @Html.TextBoxFor(m => m.Name, new { @placeholder = "Name", minlength = "2", maxlength = "25", pattern = "^[A-Za-z]+$" })
+                @Html.TextBoxFor(m => m.Name, new { @placeholder = "Name", minlength = "2",maxlength = "25",pattern = "^[A-Za-z ]+$" })
                 @Html.ValidationMessageFor(m => m.Name)
             </td>
         </tr>
@@ -24,7 +24,7 @@
         <tr>
             <td>@Html.LabelFor(m => m.Surname)</td>
             <td>
-                @Html.TextBoxFor(m => m.Surname, new { @placeholder = "Surname", minlength = "1", maxlength = "25", pattern = "^[A-Za-z]+$" })
+                @Html.TextBoxFor(m => m.Surname, new { @placeholder = "Surname", minlength = "1", maxlength = "25", pattern = "^[A-Za-z ]+$" })
                 @Html.ValidationMessageFor(m => m.Surname)
             </td>
         </tr>
@@ -32,9 +32,17 @@
         <tr>
             <td>@Html.LabelFor(m => m.Phone)</td>
             <td>
-                @Html.TextBoxFor(m => m.Phone, new { @placeholder = "Phone", minlenth = "13", maxlength = "13", pattern = "^[0-9]{13}$" })
+                @Html.TextBoxFor(m => m.Phone, new
+                    {
+                        @placeholder = "Phone",
+                        @minlength = "13",
+                        @maxlength = "13",
+                        @pattern = @"\+91\d{10}",
+                        @title = "Phone number must start with +91 followed by 10 digits"
+                    })
                 @Html.ValidationMessageFor(m => m.Phone)
             </td>
+
         </tr>
 
 
@@ -47,9 +55,14 @@
         </tr>
 
         <tr>
-            <td>@Html.LabelFor(m => m.UserID, "User ID")</td>
+            <td>@Html.LabelFor(m => m.UserID)</td>
             <td>
-                @Html.TextBoxFor(m => m.UserID, new { @placeholder = "User ID", pattern = "^[A-Z]{3}[0-9]{4}$" })
+                @Html.TextBoxFor(m => m.UserID, new
+                    {
+                        @placeholder = "SRT0001",
+                        @pattern = "^(?!.*0000$)[A-Z]{3}\\d{4}$",
+                        @title = "Must be 3 uppercase letters followed by 4 digits, and should not end with 0000"
+                    })
                 @Html.ValidationMessageFor(m => m.UserID)
             </td>
         </tr>
