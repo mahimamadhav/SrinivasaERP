@@ -32,18 +32,15 @@ namespace SrinivasaERP.Controllers
             return View();
         }
         [HttpPost]
-        public async Task<IActionResult> RegisterAsync(Register model)
+        public IActionResult Register(Register model)
         {
-            Console.WriteLine(model);
-            Console.WriteLine($"Email: {model.Email}, Password: {model.ConfirmPassword}");
-            string json = JsonSerializer.Serialize(model);
-            Console.WriteLine(json);
+
 
             if (ModelState.IsValid)
             {
                 _context.Registers.Add(model);
                 _context.SaveChanges();
-                
+
                 return RedirectToAction("Login", "Login");
 
             }
