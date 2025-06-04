@@ -21,8 +21,10 @@ namespace SrinivasaERP.Models
 
 
         [Required(ErrorMessage = "Email is required")]
-        [EmailAddress(ErrorMessage = "Invalid email format")]
+        [EmailAddress]
+        [RegularExpression(@"^[a-zA-Z0-9._%+-]+@[a-zA-Z0-9.-]+\.[a-zA-Z]{2,}$", ErrorMessage = "Invalid email format.")]
         public string? Email { get; set; }
+
         [Key]
         [Required(ErrorMessage = "User ID is required")]
         [RegularExpression(@"^(?!.*0000$)[A-Z]{3}\d{4}$", ErrorMessage = "Code must be 3 uppercase letters followed by 4 digits and must not end with 0000.")]

@@ -2,6 +2,7 @@ using System;
 using System.Diagnostics;
 using System.Text.Json;
 using Microsoft.AspNetCore.Mvc;
+using Microsoft.EntityFrameworkCore;
 using SrinivasaERP.Data;
 using SrinivasaERP.Models;
 
@@ -27,10 +28,24 @@ namespace SrinivasaERP.Controllers
         {
             return View();
         }
-        public IActionResult Login()
+        [HttpPost]
+        public JsonResult CheckUserExists(string userID, string email)
         {
-            return View();
+            bool isAvailable = true;
+
+            if (!string.IsNullOrEmpty(userID))
+            {
+                isAvailable = _context.Registers.Any(u => u.UserID == userID);
+            }
+            else if (!string.IsNullOrEmpty(email))
+            {
+                isAvailable = _context.Registers.Any(u => u.Email == email);
+            }
+
+            return Json(isAvailable);
         }
+
+
         [HttpPost]
         public async Task<IActionResult> RegisterAsync(Register model)
         {
