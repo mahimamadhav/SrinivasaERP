@@ -68,13 +68,12 @@
                     {
                         @placeholder = "SRT0001",
                         @pattern = "^(?!.*0000$)[A-Z]{3}\\d{4}$",
-                        @title = "Must be 3 uppercase letters followed by 4 digits, and should not end with 0000"
+                        @title = "Must be min 3 uppercase letters followed by 4 digits, and should not end with 0000"
                     })
                 @Html.ValidationMessageFor(m => m.UserID)
                 <span id="userIDMsg" class="mt-2" style="display:block;"></span>
             </td>
         </tr>
-
 
         <tr>
             <td>@Html.LabelFor(m => m.Password)</td>
@@ -83,12 +82,12 @@
                     @Html.PasswordFor(m => m.Password, new
                         {
                             @placeholder = "Password",
-                            @id = "Password"
+                            @id = "Password",
+                            minlength = "8"
                         })
                     <span onclick="togglePassword('Password', this)" class="toggle-password">👁️</span>
                 </div>
                 <span style="font-size: 12px; color: gray;">
-                    
                 </span>
                 @Html.ValidationMessageFor(m => m.Password)
             </td>
@@ -108,11 +107,6 @@
                 @Html.ValidationMessage("ConfirmPassword")
             </td>
         </tr>
-
-
-
-
-
         <tr>
             <td></td>
             <td><button type="submit">Register</button></td>
