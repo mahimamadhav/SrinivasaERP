@@ -29,21 +29,19 @@ namespace SrinivasaERP.Controllers
             return View();
         }
         [HttpPost]
-        public JsonResult CheckUserExists(string userID, string email)
+        public JsonResult CheckUserID(string userID)
         {
-            bool isAvailable = true;
-
-            if (!string.IsNullOrEmpty(userID))
-            {
-                isAvailable = _context.Registers.Any(u => u.UserID == userID);
-            }
-            else if (!string.IsNullOrEmpty(email))
-            {
-                isAvailable = _context.Registers.Any(u => u.Email == email);
-            }
-
-            return Json(isAvailable);
+            bool exists = _context.Registers.Any(u => u.UserID == userID);
+            return Json(!exists); // true means available
         }
+
+        [HttpPost]
+        public JsonResult CheckEmail(string email)
+        {
+            bool exists = _context.Registers.Any(u => u.Email == email);
+            return Json(!exists); // true means available
+        }
+
 
 
         [HttpPost]

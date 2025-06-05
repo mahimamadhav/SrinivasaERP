@@ -31,10 +31,11 @@ namespace SrinivasaERP.Models
         public string? UserID { get; set; }
 
 
-        [Required(ErrorMessage = "Password is required")]
-        [StringLength(12, MinimumLength = 8, ErrorMessage = "Password must be 8–12 characters")]
-        [RegularExpression("^(?=.*[a-z])(?=.*[A-Z])(?=.*\\d)(?=.*[@$!%*?&]).{8,12}$", ErrorMessage = "Password must include uppercase, lowercase, digit, and special character")]
+        [Required]
+        [StringLength(100, MinimumLength = 8, ErrorMessage = "Password must be at least 8 characters long.")]
+        [RegularExpression(@"^(?=.*[a-z])(?=.*[A-Z])(?=.*\d)(?=.*[@$!%*?&]).{8,}$", ErrorMessage = "Password must include uppercase, lowercase, number, and special character.")]
         public string? Password { get; set; }
+
         [NotMapped]
         [Required(ErrorMessage = "Confirm Password is required")]
         [Compare("Password", ErrorMessage = "Passwords do not match")]

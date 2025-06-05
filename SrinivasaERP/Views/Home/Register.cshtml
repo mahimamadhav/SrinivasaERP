@@ -49,9 +49,15 @@
         <tr>
             <td>@Html.LabelFor(m => m.Email)</td>
             <td>
-                @Html.TextBoxFor(m => m.Email, new { @placeholder = "Email", type = "email", pattern = "^[a-zA-Z0-9._%+-]+@[a-zA-Z0-9.-]+\\.[a-zA-Z]{2,}$", title = "Enter a valid email address" })
+                @Html.TextBoxFor(m => m.Email, new
+                    {
+                        @placeholder = "Email",
+                        type = "email",
+                        pattern = "^[a-zA-Z0-9._%+-]+@[a-zA-Z0-9.-]+\\.[a-zA-Z]{2,}$",
+                        title = "Enter a valid email address"
+                    })
                 @Html.ValidationMessageFor(m => m.Email)
-           
+                <span id="emailMsg" class="mt-2" style="display:block;"></span>
             </td>
         </tr>
 
@@ -65,14 +71,25 @@
                         @title = "Must be 3 uppercase letters followed by 4 digits, and should not end with 0000"
                     })
                 @Html.ValidationMessageFor(m => m.UserID)
-                <div id="availabilityMsg" class="mt-2"></div>
+                <span id="userIDMsg" class="mt-2" style="display:block;"></span>
             </td>
         </tr>
+
 
         <tr>
             <td>@Html.LabelFor(m => m.Password)</td>
             <td>
-                @Html.PasswordFor(m => m.Password, new { @placeholder = "Password", pattern = "^(?=.*[a-z])(?=.*[A-Z])(?=.*\\d)(?=.*[@$!%*?&]).{8,12}$" })
+                <div class="password-wrapper">
+                    @Html.PasswordFor(m => m.Password, new
+                        {
+                            @placeholder = "Password",
+                            @id = "Password"
+                        })
+                    <span onclick="togglePassword('Password', this)" class="toggle-password">👁️</span>
+                </div>
+                <span style="font-size: 12px; color: gray;">
+                    
+                </span>
                 @Html.ValidationMessageFor(m => m.Password)
             </td>
         </tr>
@@ -80,10 +97,21 @@
         <tr>
             <td><label for="ConfirmPassword">Confirm<br />Password</label></td>
             <td>
-                @Html.Password("ConfirmPassword", null, new { @placeholder = "Confirm Password" })
+                <div class="password-wrapper">
+                    @Html.Password("ConfirmPassword", null, new
+                        {
+                            @placeholder = "Confirm Password",
+                            @id = "ConfirmPassword"
+                        })
+                    <span onclick="togglePassword('ConfirmPassword', this)" class="toggle-password">👁️</span>
+                </div>
                 @Html.ValidationMessage("ConfirmPassword")
             </td>
         </tr>
+
+
+
+
 
         <tr>
             <td></td>
@@ -91,35 +119,97 @@
         </tr>
     </table>
 }
+<script>
+    function togglePassword(inputId, iconElement) {
+        const input = document.getElementById(inputId);
+        if (input.type === "password") {
+            input.type = "text";
+            iconElement.textContent = "🙈"; 
+        } else {
+            input.type = "password";
+            iconElement.textContent = "👁️"; 
+        }
+    }
+</script>
+
+
+<script src="~/lib/jquery/dist/jquery.min.js"></script>
 <script src="~/lib/jquery-validation/dist/jquery.validate.min.js"></script>
 <script src="~/lib/jquery-validation-unobtrusive/jquery.validate.unobtrusive.min.js"></script>
+
 <script>
-        $(document).ready(function () {
-        $('#UserID, #Email').on('blur', function () {
+    $(document).ready(function () {
+        $('#UserID').on('blur', function () {
             var userID = $('#UserID').val();
-            var email = $('#Email').val();
-debugger;
-            $.ajax({
-                url: '/Home/CheckUserExists',
-                type: 'POST',
-                data: { userID: userID, email: email },
-                success: function (isAvailable) {
-                    if (!isAvailable) {
-                        $('#availabilityMsg').text('User ID or Email already exists.').css('color', 'red');
-                    } else {
-                        $('#availabilityMsg').text('Available ✅').css('color', 'green');
+            if (userID) {
+                $.ajax({
+                    url: '/Home/CheckUserID',
+                    type: 'POST',
+                    data: { userID: userID },
+                    success: function (isAvailable) {
+                        if (!isAvailable) {
+                            $('#userIDMsg').text('User ID already exists.').css('color', 'red');
+                        } else {
+                            $('#userIDMsg').text('User ID available ✅').css('color', 'green');
+                        }
+                    },
+                    error: function () {
+                        $('#userIDMsg').text('Error checking User ID.').css('color', 'orange');
                     }
-                },
-                error: function () {
-                    $('#availabilityMsg').text('Error checking availability.').css('color', 'orange');
-                }
-            });
+                });
+            }
+        });
+
+        $('#Email').on('blur', function () {
+            var email = $('#Email').val();
+            if (email) {
+                $.ajax({
+                    url: '/Home/CheckEmail',
+                    type: 'POST',
+                    data: { email: email },
+                    success: function (isAvailable) {
+                        if (!isAvailable) {
+                            $('#emailMsg').text('Email already exists.').css('color', 'red');
+                        } else {
+                            $('#emailMsg').text('Email available ✅').css('color', 'green');
+                        }
+                    },
+                    error: function () {
+                        $('#emailMsg').text('Error checking Email.').css('color', 'orange');
+                    }
+                });
+            }
         });
     });
-
 </script>
 
 <style>
+    .password-wrapper {
+        position: relative;
+        width: 300px;
+        display: inline-block;
+    }
+
+        .password-wrapper input {
+            width: 100%;
+            padding-right: 2.5rem; 
+            height: 40px;
+            border-radius: 8px;
+            padding-left: 15px; 
+            box-sizing: border-box;
+        }
+
+    .toggle-password {
+        position: absolute;
+        right: 10px;
+        top: 50%;
+        transform: translateY(-50%);
+        cursor: pointer;
+        user-select: none;
+        font-size: 18px;
+        color: #666;
+    }
+
     input {
         padding-left: 15px;
         height: 40px;
