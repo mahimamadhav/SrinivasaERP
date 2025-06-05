@@ -27,7 +27,7 @@ namespace SrinivasaERP.Controllers
             return View();
         }
         [HttpPost]
-        public async Task<IActionResult> Login(LoginModel model)
+        public IActionResult Login(LoginModel model)
         {
             if (!ModelState.IsValid)
             {
@@ -38,9 +38,8 @@ namespace SrinivasaERP.Controllers
             var password = model.Password?.Trim();
 
             Console.WriteLine($"Input: {input}, {password}");
-
-            var user = await _context.Registers
-                .FirstOrDefaultAsync(u =>
+            var user = _context.Registers
+                .FirstOrDefault(u =>
                     (u.UserID == input || u.Email == input) &&
                     u.Password == password);
 
@@ -54,14 +53,9 @@ namespace SrinivasaERP.Controllers
             {
                 Console.WriteLine("Login failed: user not found or password mismatch");
             }
-
+            TempData["Error"] = "Invalid EmployeeID or Password.";
             return View(model);
         }
-
-
-
-
-
 
 
         [HttpGet]
@@ -73,12 +67,22 @@ namespace SrinivasaERP.Controllers
             
         public IActionResult ForgotPassword(ForgotModel Model)
         {
-            Console.WriteLine(Model.EmployeeIDOrEmail);
+           
             if (!ModelState.IsValid)
             {
-                return View("forgotpassword", Model);
+                return View(Model);
             }
-            if (Model.EmployeeIDOrEmail == "admin"|| Model.EmployeeIDOrEmail == "admin@example.com")
+
+            var input = Model.EmployeeIDOrEmail?.Trim();
+            
+
+            Console.WriteLine($"Input: {input}");
+
+            var user = _context.Registers
+                .FirstOrDefault(u =>
+                    (u.UserID == input || u.Email == input));
+
+            if (user != null)
             {
                 TempData["Success"] = " Password reset link has been sent to your email.";
                 return View("forgotpassword");
@@ -86,9 +90,9 @@ namespace SrinivasaERP.Controllers
             else
             {
                 TempData["Error"] = "Invalid EmployeeID or Password.";
-                return View("forgotpassword");
+                  return View("forgotpassword");
             }
-            
+
         }
         public IActionResult dashbord()
         {
