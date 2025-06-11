@@ -53,8 +53,8 @@ namespace SrinivasaERP.Controllers
             {
                 _context.Registers.Add(model);
                 _context.SaveChanges();
-
-                return RedirectToAction("Login", "Login");
+                ViewBag.ShowAlert = true;
+                return View();
 
             }
 
