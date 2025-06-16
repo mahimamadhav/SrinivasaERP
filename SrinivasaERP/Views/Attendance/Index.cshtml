@@ -1,0 +1,154 @@
+﻿@model SrinivasaERP.Models.AttendanceViewModel
+@{
+    Layout = null;
+}
+
+<!DOCTYPE html>
+<html>
+<head>
+    <meta name="viewport" content="width=device-width" />
+    <title>Attendance Dashboard</title>
+    <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css" rel="stylesheet" />
+    <style>
+        body {
+            margin: 0;
+            font-family: Arial, sans-serif;
+            background-color: #f7f8fc;
+        }
+
+        .sidebar {
+            width: 240px;
+            background-color: #2d3748;
+            color: white;
+            height: 100vh;
+            position: fixed;
+            padding-top: 20px;
+        }
+
+            .sidebar a {
+                display: block;
+                padding: 16px;
+                color: white;
+                text-decoration: none;
+            }
+
+                .sidebar a.active, .sidebar a:hover {
+                    background-color: #4a5568;
+                }
+
+        .main {
+            margin-left: 240px;
+            padding: 20px;
+        }
+
+        .header {
+            font-size: 24px;
+            font-weight: bold;
+            margin-bottom: 20px;
+        }
+
+        .tabs {
+            display: flex;
+            gap: 16px;
+            margin-bottom: 24px;
+        }
+
+            .tabs div {
+                padding: 8px 16px;
+                border-bottom: 2px solid transparent;
+                cursor: pointer;
+            }
+
+            .tabs .active {
+                border-color: #4a90e2;
+                font-weight: bold;
+            }
+
+        .card {
+            background: white;
+            padding: 16px;
+            border-radius: 8px;
+            box-shadow: 0 2px 4px rgba(0,0,0,0.1);
+            margin-bottom: 24px;
+        }
+
+        .flex-row {
+            display: flex;
+            justify-content: space-between;
+            gap: 20px;
+        }
+    </style>
+</head>
+<body>
+    <div class="sidebar">
+        <a href="#"><i class="fas fa-home"></i> Home</a>
+        <a href="#"><i class="fas fa-user"></i> Profile</a>
+        <a href="#"><i class="fas fa-sitemap"></i> Hierarchy</a>
+        <a href="@Url.Action("Dashboard", "Attendance")" class="active"><i class="fas fa-calendar-alt"></i> Attendance</a>
+        <a href="#"><i class="fas fa-plane"></i> Leave</a>
+    </div>
+
+    <div class="main">
+        <div class="header">Attendance Management</div>
+
+        <div class="tabs">
+            <div class="active">Dashboard</div>
+            <div>Attendance Details</div>
+            <div>My Shifts</div>
+            <div>Attendance Policies</div>
+            <div>Requests</div>
+            <div>Apply</div>
+        </div>
+
+        <div class="flex-row">
+            <div style="flex: 2">
+                <div class="card">
+                    <h3>Attendance Logs</h3>
+
+                    <p><strong>Today, @Model.TodayDate.ToString("MMMM d, yyyy")</strong></p>
+                    <p>
+                        In Time: @Model.TodayInTime ?? "—" &nbsp;&nbsp;&nbsp;
+                        Out Time: @Model.TodayOutTime ?? "—" &nbsp;&nbsp;&nbsp;
+                        Out Location: @Model.TodayOutLocation ?? "—"
+                        &nbsp;&nbsp;&nbsp;
+                        <a href="#">Punch Logs</a>
+                    </p>
+
+                    <p><strong>Yesterday, @Model.YesterdayDate.ToString("MMMM d, yyyy")</strong></p>
+                    <p>
+                        In Time: @Model.YesterdayInTime ?? "—" &nbsp;&nbsp;&nbsp;
+                        Out Time: @Model.YesterdayOutTime ?? "—" &nbsp;&nbsp;&nbsp;
+                        Out Location: @Model.YesterdayOutLocation ?? "—"
+                    </p>
+                </div>
+            </div>
+
+            <div style="flex: 1">
+                <div class="card">
+                    <h3>Shift Details <a href="#" style="float:right; font-size:14px">View All</a></h3>
+                    @foreach (var shift in Model.ShiftDetails)
+                    {
+                        <p><strong>@shift.Date.ToString("dddd, MMM d, yyyy")</strong></p>
+                        <p>@shift.DayType</p>
+
+                        @if (!string.IsNullOrEmpty(shift.InTime) && !string.IsNullOrEmpty(shift.OutTime))
+                        {
+                            <p>@shift.InTime &nbsp;&nbsp;&nbsp; @shift.OutTime</p>
+                        }
+
+                        @if (!string.IsNullOrEmpty(shift.ShiftLabel))
+                        {
+                            <p>@shift.ShiftLabel <a href="#" style="float:right; font-size:14px">Change Shift</a></p>
+                        }
+                    }
+                </div>
+
+                <div class="card">
+                    <h3>Month Summary <span style="float:right; font-size:14px">@Model.MonthSummary.SummaryDate.ToString("MMM d, yyyy") 📅</span></h3>
+                    <p>@Model.MonthSummary.MonthName</p>
+                </div>
+            </div>
+        </div>
+    </div>
+</body>
+</html>

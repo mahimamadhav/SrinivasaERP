@@ -27,13 +27,12 @@ namespace SrinivasaERP.Models
 
         [Key]
         [Required(ErrorMessage = "User ID is required")]
-        [RegularExpression(@"^(?!.*0000$)[A-Z]{3}\d{4}$", ErrorMessage = "Code must be 3 uppercase letters followed by 4 digits and must not end with 0000.")]
+        [RegularExpression(@"^SRT(?!0000)\d{4}$", ErrorMessage = "Must start with 'SRT' followed by 4 digits, and not end with 0000")]
         public string? UserID { get; set; }
 
-
         [Required]
-        [StringLength(100, MinimumLength = 8, ErrorMessage = "Password must be at least 8 characters long.")]
-        [RegularExpression(@"^(?=.*[a-z])(?=.*[A-Z])(?=.*\d)(?=.*[@$!%*?&]).{8,}$", ErrorMessage = "Password must include uppercase, lowercase, number, and special character.")]
+        [StringLength(12, MinimumLength = 8, ErrorMessage = "Password must be between 8 and 12 characters")]
+        [RegularExpression(@"^(?=.*[a-z])(?=.*[A-Z])(?=.*\d)(?=.*[\W_])\S{8,12}$", ErrorMessage = "Password must contain uppercase, lowercase, number, special character, and no spaces")]
         public string? Password { get; set; }
 
         [NotMapped]
