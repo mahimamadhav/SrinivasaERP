@@ -1,0 +1,158 @@
+﻿@{
+    ViewBag.Title = "Profile Details";
+}
+
+<!-- Sidebar -->
+<div class="sidebar">
+    <i data-lucide="user"></i>
+    <i data-lucide="users"></i>
+    <i data-lucide="calendar-days"></i>
+    <i data-lucide="file-text"></i>
+    <i data-lucide="clipboard"></i>
+    <i data-lucide="trending-up"></i>
+    <i data-lucide="settings"></i>
+</div>
+
+<!-- Header -->
+<div class="header">
+    <img src="~/images/logo.png" alt="Logo" class="logo"  />
+    <p class="welcome">Welcome, Samba Siva Rao</p>
+</div>
+
+<!-- Top Navigation -->
+<div class="topnav">
+    <span class="active">Profile</span>
+    <span>Work Flows</span>
+    <span>Attendance</span>
+    <span>Leave</span>
+    <span>Finance</span>
+    <span>Actions</span>
+</div>
+
+<!-- Title -->
+<h2 class="page-title">Profile Details</h2>
+
+<!-- Profile Cards -->
+<div class="profile-container">
+    <div class="card">Personal Details</div>
+    <div class="card">Current Address</div>
+    <div class="card">Permanent Address</div><br />
+    <div class="card">Department</div>
+    <div class="card">Emergency Details</div>
+    <div class="card">Personal Documents</div>
+</div>
+
+<script>
+    lucide.createIcons();
+</script>
+
+<!-- Styles -->
+<style>
+    body {
+        margin: 0;
+        font-family: 'Segoe UI', sans-serif;
+        background-color: #f9f9f9;
+    }
+
+    .sidebar {
+        position: fixed;
+        top:235px;
+        left: 195px;
+        bottom: 100px;
+        width: 60px;
+        background-color: #ffffff;
+        display: flex;
+        flex-direction: column;
+        align-items: center;
+        padding-top: 20px;
+        gap: 20px;
+        box-shadow: 2px 0 5px rgba(0, 0, 0, 0.05);
+    }
+
+        .sidebar i {
+            font-size: 24px;
+            cursor: pointer;
+            color: #333;
+            transition: color 0.3s ease;
+        }
+
+            .sidebar i:hover {
+                color: #007bff;
+            }
+
+    .header {
+        display: flex;
+        justify-content: space-between;
+        align-items: center;
+        padding: 15px 40px;
+        margin-left: 60px;
+        background-color: white;
+    }
+
+    .logo {
+        left: 250px;
+        align-items: center;
+        justify-content: center;
+        margin-left: 300px;
+        height: 60px;
+        width: auto;
+    }
+
+    .welcome {
+        font-size: 16px;
+        font-weight: 500;
+        color: #333;
+        margin: 0;
+    }
+
+    .topnav {
+        display: flex;
+        gap: 30px;
+        padding: 20px 40px;
+        margin-left: 60px;
+        font-size: 18px;
+        background-color: white;
+        border-bottom: 1px solid #ccc;
+    }
+
+        .topnav span {
+            cursor: pointer;
+            padding-bottom: 4px;
+        }
+
+            .topnav span.active {
+                border-bottom: 2px solid blue;
+                font-weight: bold;
+            }
+
+    .page-title {
+        margin: 30px 40px 10px 120px;
+        font-size: 24px;
+        color: #333;
+    }
+
+    .profile-container {
+        display: grid;
+        grid-template-columns: repeat(auto-fit, minmax(220px, 1fr));
+        gap: 20px;
+        padding: 30px 40px 40px 120px;
+    }
+
+    .card {
+        background-color: white;
+        border: 1px solid #ddd;
+        border-radius: 12px;
+        padding: 30px;
+        text-align: center;
+        font-size: 18px;
+        font-weight: bold;
+        box-shadow: 0 2px 8px rgba(0, 0, 0, 0.05);
+        cursor: pointer;
+        transition: transform 0.2s;
+    }
+
+        .card:hover {
+            transform: scale(1.05);
+            box-shadow: 0 4px 12px rgba(0, 0, 0, 0.15);
+        }
+</style>

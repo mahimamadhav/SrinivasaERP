@@ -98,6 +98,12 @@ namespace SrinivasaERP.Controllers
         {
             ViewBag.UserName = "Rajiv Sharma"; // Replace with dynamic user data
             return View();
+            //return View("Profile");
+        }
+
+        public IActionResult Profile()
+        {
+            return View();
         }
     }
 }
