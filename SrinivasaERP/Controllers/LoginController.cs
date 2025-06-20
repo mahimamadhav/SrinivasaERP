@@ -5,6 +5,7 @@ using System.Data.SqlClient;
 using Microsoft.EntityFrameworkCore;
 using SrinivasaERP.Data;
 using System.Linq;
+using Microsoft.AspNetCore.Http;
 
 
 namespace SrinivasaERP.Controllers
@@ -37,7 +38,7 @@ namespace SrinivasaERP.Controllers
             var input = model.EmployeeIDOrEmail?.Trim();
             var password = model.Password?.Trim();
 
-            Console.WriteLine($"Input: {input}, {password}");
+            Console.WriteLine($"Input: {input},password: {password}");
             var user = _context.Registers
                 .FirstOrDefault(u =>
                     (u.UserID == input || u.Email == input) &&
@@ -45,8 +46,12 @@ namespace SrinivasaERP.Controllers
 
             if (user != null)
             {
-                Console.WriteLine("Login successful");
-                // TODO: Set session / redirect
+                string userName = user.Name!;
+                HttpContext.Session.GetString(userName);
+
+                
+
+                
                 return RedirectToAction("dashbord");
             }
             else
@@ -54,7 +59,8 @@ namespace SrinivasaERP.Controllers
                 Console.WriteLine("Login failed: user not found or password mismatch");
             }
             TempData["Error"] = "Invalid EmployeeID or Password.";
-            return View(model);
+            return View();
+            //return View("Login","Login");
         }
 
 
@@ -96,13 +102,19 @@ namespace SrinivasaERP.Controllers
         }
         public IActionResult dashbord()
         {
-            ViewBag.UserName = "Rajiv Sharma"; // Replace with dynamic user data
+            //ViewBag.UserName = TempData["UserName"]?.ToString();
+            var userName = HttpContext.Session.GetString("UserName");
+            ViewBag.Name = userName;
             return View();
             //return View("Profile");
         }
 
         public IActionResult Profile()
         {
+
+            var userName = HttpContext.Session.GetString("UserName");
+            ViewBag.Name = userName;
+
             return View();
         }
     }
