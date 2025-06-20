@@ -27,7 +27,7 @@
             <td>@Html.LabelFor(m => m.Name)</td>
             <td>
                 @Html.TextBoxFor(m => m.Name, new { @placeholder = "Name", minlength = "2",maxlength = "25",pattern = "^[A-Za-z ]+$" })
-                @Html.ValidationMessageFor(m => m.Name)
+                @Html.ValidationMessageFor(m => m.Name, "", new { @class = "text-danger" })
             </td>
         </tr>
 
@@ -35,7 +35,7 @@
             <td>@Html.LabelFor(m => m.Surname)</td>
             <td>
                 @Html.TextBoxFor(m => m.Surname, new { @placeholder = "Surname", minlength = "1", maxlength = "25", pattern = "^[A-Za-z ]+$" })
-                @Html.ValidationMessageFor(m => m.Surname)
+                @Html.ValidationMessageFor(m => m.Surname, "", new { @class = "text-danger" })
             </td>
         </tr>
 
@@ -50,7 +50,7 @@
                         @pattern = @"\+91\d{10}",
                         @title = "Phone number must start with +91 followed by 10 digits"
                     })
-                @Html.ValidationMessageFor(m => m.Phone)
+                @Html.ValidationMessageFor(m => m.Phone, "", new { @class = "text-danger" })
             </td>
 
         </tr>
@@ -61,12 +61,13 @@
             <td>
                 @Html.TextBoxFor(m => m.Email, new
                     {
+                        @id = "Email",
                         @placeholder = "Email",
                         type = "email",
                         pattern = "^[a-zA-Z0-9._%+-]+@[a-zA-Z0-9.-]+\\.[a-zA-Z]{2,}$",
                         title = "Enter a valid email address"
                     })
-                @Html.ValidationMessageFor(m => m.Email)
+                @Html.ValidationMessageFor(m => m.Email, "", new { @class = "text-danger" })
                 <span id="emailMsg" class="mt-2" style="display:block;"></span>
             </td>
         </tr>
@@ -76,13 +77,17 @@
             <td>
                 @Html.TextBoxFor(m => m.UserID, new
                     {
+                        @id = "UserID",
                         @placeholder = "SRT0001",
-                        @pattern = "^(?!.*0000$)[A-Z]{3}\\d{4}$",
-                        @title = "Must be min 3 uppercase letters followed by 4 digits, and should not end with 0000"
+                        @required = "required", 
+                        @pattern = "SRT(?!0000)\\d{4}",
+                        @title = "Must start with 'SRT' followed by 4 digits, and must not end with 0000"
                     })
-                @Html.ValidationMessageFor(m => m.UserID)
+                @Html.ValidationMessageFor(m => m.UserID, "", new { @class = "text-danger" })
                 <span id="userIDMsg" class="mt-2" style="display:block;"></span>
+                
             </td>
+
         </tr>
 
         <tr>
@@ -93,28 +98,31 @@
                         {
                             @placeholder = "Password",
                             @id = "Password",
-                            minlength = "8"
+                            required = "required", 
+                            pattern = @"^(?=.*[a-z])(?=.*[A-Z])(?=.*\d)(?=.*[\W_])(?!.*\s).{8,12}$",
+                            title = "Password must be 8–12 characters, include uppercase, lowercase, number, special character, and no spaces"
                         })
                     <span onclick="togglePassword('Password', this)" class="toggle-password">👁️</span>
                 </div>
-                <span style="font-size: 12px; color: gray;">
-                </span>
-                @Html.ValidationMessageFor(m => m.Password)
+                @Html.ValidationMessageFor(m => m.Password, "", new { @class = "text-danger" })
             </td>
+
         </tr>
 
         <tr>
             <td><label for="ConfirmPassword">Confirm<br />Password</label></td>
             <td>
                 <div class="password-wrapper">
-                    @Html.Password("ConfirmPassword", null, new
+                    @Html.PasswordFor(m => m.ConfirmPassword, new
                         {
                             @placeholder = "Confirm Password",
-                            @id = "ConfirmPassword"
+                            @id = "ConfirmPassword",
+                            @required = "required",
+                            @title = "Please re-enter your password"
                         })
                     <span onclick="togglePassword('ConfirmPassword', this)" class="toggle-password">👁️</span>
                 </div>
-                @Html.ValidationMessage("ConfirmPassword")
+                @Html.ValidationMessageFor(m => m.ConfirmPassword, "", new { @class = "text-danger" })
             </td>
         </tr>
         <tr>
@@ -135,16 +143,15 @@
         }
     }
 </script>
-
-
-<script src="~/lib/jquery/dist/jquery.min.js"></script>
-<script src="~/lib/jquery-validation/dist/jquery.validate.min.js"></script>
-<script src="~/lib/jquery-validation-unobtrusive/jquery.validate.unobtrusive.min.js"></script>
+<script src="@Url.Content("~/lib/jquery/dist/jquery.min.js")"></script>
+<script src="@Url.Content("~/lib/jquery-validation/dist/jquery.validate.min.js")"></script>
+<script src="@Url.Content("~/lib/jquery-validation-unobtrusive/jquery.validate.unobtrusive.min.js")"></script>
 
 <script>
     $(document).ready(function () {
+
         $('#UserID').on('blur', function () {
-            var userID = $('#UserID').val();
+            var userID = $(this).val();
             if (userID) {
                 $.ajax({
                     url: '/Home/CheckUserID',
@@ -157,15 +164,16 @@
                             $('#userIDMsg').text('User ID available ✅').css('color', 'green');
                         }
                     },
-                    error: function () {
+                    error: function (xhr, status, error) {
                         $('#userIDMsg').text('Error checking User ID.').css('color', 'orange');
+                        console.error("AJAX error:", error);
                     }
                 });
             }
         });
 
         $('#Email').on('blur', function () {
-            var email = $('#Email').val();
+            var email = $(this).val();
             if (email) {
                 $.ajax({
                     url: '/Home/CheckEmail',
@@ -178,14 +186,17 @@
                             $('#emailMsg').text('Email available ✅').css('color', 'green');
                         }
                     },
-                    error: function () {
+                    error: function (xhr, status, error) {
                         $('#emailMsg').text('Error checking Email.').css('color', 'orange');
+                        console.error("AJAX error:", error);
                     }
                 });
             }
         });
+
     });
 </script>
+
 
 <style>
     .password-wrapper {
