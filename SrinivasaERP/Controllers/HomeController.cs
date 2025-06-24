@@ -51,7 +51,7 @@ namespace SrinivasaERP.Controllers
 
             if (ModelState.IsValid)
             {
-                _context.Registers.Add(model);
+               object value = _context.Registers.Add(model);
                 _context.SaveChanges();
                 ViewBag.ShowAlert = true;
                 return View();

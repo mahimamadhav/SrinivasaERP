@@ -2,10 +2,17 @@
 @{
     ViewData["Title"] = "Login";
 }
+@section Scripts {
+    <partial name="_ValidationScriptsPartial" />
+}
+
 <!-- Font Awesome for eye icon -->
 <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css" />
 <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
 <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
+<script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+<script src="https://cdn.jsdelivr.net/npm/jquery-validation@1.19.5/dist/jquery.validate.min.js"></script>
+<script src="https://cdn.jsdelivr.net/npm/jquery-validation-unobtrusive@3.2.12/dist/jquery.validate.unobtrusive.min.js"></script>
 
 @if (TempData["Success"] != null)
 {
@@ -60,32 +67,44 @@
     </div>
 </div>
 
-<!-- JavaScript code -->
 <script>
     let inputs = document.querySelectorAll('input');
     let buttonSend = document.getElementById('button-send');
 
-    
+    // Initialize validator based on existing input values
     let inputValidator = {
-        "EmployeeIDOrEmail": false,
-        "Password": false
+        "EmployeeIDOrEmail": document.querySelector('[name="EmployeeIDOrEmail"]').value.trim().length > 0,
+        "Password": document.querySelector('[name="Password"]').value.trim().length > 0
     };
 
+    // Enable or disable button based on current state
+    function updateButtonState() {
+        const allValid = Object.values(inputValidator).every(value => value === true);
+        buttonSend.disabled = !allValid;
+    }
+
+    // Add input event listeners
     inputs.forEach((input) => {
         input.addEventListener('input', (event) => {
             let name = event.target.getAttribute('name');
-            if (name in inputValidator) {
-                inputValidator[name] = event.target.value.length > 0;
-            }
 
-            let allTrue = Object.values(inputValidator).every(value => value === true);
-            buttonSend.disabled = !allTrue;
+            if (name in inputValidator) {
+                inputValidator[name] = event.target.value.trim().length > 0;
+                updateButtonState();
+            }
         });
     });
 
+    // Run once on page load (important after postback)
+    window.addEventListener('DOMContentLoaded', () => {
+        updateButtonState();
+    });
+
+    // Password toggle
     function togglePassword() {
         var input = document.getElementById("password");
         var icon = document.getElementById("eyeIcon");
+
         if (input.type === "password") {
             input.type = "text";
             icon.classList.remove("fa-eye");
@@ -97,7 +116,7 @@
         }
     }
 
-
+    // Bootstrap tooltips
     var tooltipTriggerList = [].slice.call(document.querySelectorAll('[data-bs-toggle="tooltip"]'));
     var tooltipList = tooltipTriggerList.map(function (tooltipTriggerEl) {
         return new bootstrap.Tooltip(tooltipTriggerEl);

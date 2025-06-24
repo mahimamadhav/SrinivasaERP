@@ -39,5 +39,7 @@ namespace SrinivasaERP.Models
         [Required(ErrorMessage = "Confirm Password is required")]
         [Compare("Password", ErrorMessage = "Passwords do not match")]
         public string? ConfirmPassword { get; set; }
+        public string? ResetToken { get; internal set; }
+        public DateTime? ResetTokenExpiry { get; internal set; }
     }
 }

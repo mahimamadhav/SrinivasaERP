@@ -362,3 +362,5 @@ MigrationBackup/
 # Fody - auto-generated XML schema
 FodyWeavers.xsd
 /SrinivasaERP/Properties/launchSettings.json
+/SrinivasaERP/.config/dotnet-tools.json
+/SrinivasaERP/Migrations
