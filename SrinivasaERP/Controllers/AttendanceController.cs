@@ -14,7 +14,9 @@ namespace SrinivasaERP.Controllers
         {
             _configuration = configuration;
         }
-        public ActionResult Index()
+
+        
+        public ActionResult Index(int days = 7)
         {
             var viewModel = new AttendanceViewModel();
             string attendanceConnStr = _configuration.GetConnectionString("AttendanceDBConnection");
@@ -28,41 +30,52 @@ namespace SrinivasaERP.Controllers
                     var today = DateTime.Today;
                     var yesterday = today.AddDays(-1);
 
-                    // ✅ Use local variables here to fix the 'ref/out' error
-                    DateTime todayDate;
-                    string? todayInTime, todayOutTime, todayOutLocation;
-
-                    LoadAttendanceData(conn, today, out todayDate, out todayInTime, out todayOutTime, out todayOutLocation);
-
+                 
+                    LoadAttendanceData(conn, today, out var todayDate, out var todayInTime, out var todayOutTime, out var todayOutLocation);
                     viewModel.TodayDate = todayDate;
                     viewModel.TodayInTime = todayInTime;
                     viewModel.TodayOutTime = todayOutTime;
                     viewModel.TodayOutLocation = todayOutLocation;
 
-                    // ✅ Do the same for yesterday
-                    DateTime yesterdayDate;
-                    string? yesterdayInTime, yesterdayOutTime, yesterdayOutLocation;
-
-                    LoadAttendanceData(conn, yesterday, out yesterdayDate, out yesterdayInTime, out yesterdayOutTime, out yesterdayOutLocation);
-
+                    LoadAttendanceData(conn, yesterday, out var yesterdayDate, out var yesterdayInTime, out var yesterdayOutTime, out var yesterdayOutLocation);
                     viewModel.YesterdayDate = yesterdayDate;
                     viewModel.YesterdayInTime = yesterdayInTime;
                     viewModel.YesterdayOutTime = yesterdayOutTime;
                     viewModel.YesterdayOutLocation = yesterdayOutLocation;
 
-                    // Load shift details
+                    
                     viewModel.ShiftDetails = LoadShiftDetails(conn);
 
-                    // Dummy chart data
                     viewModel.MonthSummary = new MonthSummary
                     {
                         SummaryDate = DateTime.Today,
                         MonthName = DateTime.Today.ToString("MMMM yyyy")
                     };
 
-                    viewModel.Months = new List<string> { "Jan", "Feb", "Mar", "Apr", "May", "Jun" };
-                    viewModel.PresentDays = new List<int> { 20, 21, 19, 22, 20, 18 };
-                    viewModel.AbsentDays = new List<int> { 1, 2, 2, 1, 2, 3 };
+                    int monthsToShow;
+                    if (days <= 30)
+                        monthsToShow = 1;
+                    else if (days <= 90)
+                        monthsToShow = 3;
+                    else if (days <= 180)
+                        monthsToShow = 6;
+                    else
+                        monthsToShow = 12;
+
+                    viewModel.Months = new List<string>();
+                    viewModel.PresentDays = new List<int>();
+                    viewModel.AbsentDays = new List<int>();
+
+                    var start = DateTime.Today.AddMonths(-monthsToShow + 1);
+                    var rnd = new Random();
+
+                    for (int i = 0; i < monthsToShow; i++)
+                    {
+                        var month = start.AddMonths(i);
+                        viewModel.Months.Add(month.ToString("MMM yyyy"));
+                        viewModel.PresentDays.Add(rnd.Next(18, 23)); 
+                        viewModel.AbsentDays.Add(rnd.Next(0, 3));    
+                    }
                 }
             }
             catch (Exception ex)
@@ -72,8 +85,9 @@ namespace SrinivasaERP.Controllers
             }
 
 
-            return View(viewModel); 
+            return View(viewModel);
         }
+
         private void LoadAttendanceData(SqlConnection conn, DateTime date, out DateTime outDate, out string? inTime, out string? outTime, out string? outLocation)
         {
             outDate = date;

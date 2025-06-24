@@ -126,14 +126,31 @@
 
                 <div class="card">
                     <h3>
-                        Attendance Data <span style="float:right">
-                            <select>
-                                <option>Last 6 Months</option>
+                        Attendance Data
+                        <span style="float:right">
+                            @{
+                                var selectedDays = Context.Request.Query["days"].ToString();
+                            }
+
+                            <select id="monthRangeSelect">
+                                <option value="7">Last 1 Week</option>
+                                <option value="30">Last 1 Month</option>
+                                <option value="90">Last 3 Months</option>
+                                <option value="180">Last 6 Months</option>
+                                <option value="365">Last 1 Year</option>
                             </select>
-                        </span>
+
+                            <script>
+                                document.getElementById("monthRangeSelect").addEventListener("change", function () {
+                                    const days = this.value;
+                                    window.location.href = '/Attendance/Index?days=' + days;
+                                });
+                            </script>
+
                     </h3>
                     <canvas id="attendanceChart" height="100"></canvas>
                 </div>
+
             </div>
 
             <div style="flex: 1">
@@ -185,10 +202,11 @@
 
     <script>
         const chartLabels = @Html.Raw(JsonConvert.SerializeObject(Model.Months ?? new List<string>()));
-        const presentData = @Html.Raw(JsonConvert.SerializeObject(Model.PresentDays ?? new List<int>()));
-        const absentData = @Html.Raw(JsonConvert.SerializeObject(Model.AbsentDays ?? new List<int>()));
+        const presentDays = @Html.Raw(JsonConvert.SerializeObject(Model.PresentDays ?? new List<int>()));
+        const absentDays = @Html.Raw(JsonConvert.SerializeObject(Model.AbsentDays ?? new List<int>()));
 
         const ctx = document.getElementById('attendanceChart').getContext('2d');
+
         new Chart(ctx, {
             type: 'bar',
             data: {
@@ -196,12 +214,12 @@
                 datasets: [
                     {
                         label: 'Present Days',
-                        data: presentData,
+                        data: presentDays,
                         backgroundColor: '#4a90e2'
                     },
                     {
                         label: 'Absent Days',
-                        data: absentData,
+                        data: absentDays,
                         backgroundColor: '#f6e58d'
                     }
                 ]
@@ -220,5 +238,6 @@
             }
         });
     </script>
+
 </body>
 </html>
