@@ -1,6 +1,6 @@
 ﻿﻿@{
     ViewData["Title"] = "Dashboard";
-    var userName = ViewBag.UserName;
+    
 }
 
 <div class="main-container">
@@ -16,7 +16,7 @@
     <div class="content">
         <div class="header-bar">
             <h1 class="title">SRINIVASA TOURS <br />& TRAVELS</h1>
-            <div class="welcome">Welcome, @userName</div>
+            <div class="welcome"> Welcome, <br />@ViewBag.Name</div>
         </div>
 
         <div class="tile-grid">
