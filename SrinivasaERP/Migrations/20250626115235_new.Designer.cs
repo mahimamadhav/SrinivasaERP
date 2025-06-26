@@ -12,8 +12,8 @@ using SrinivasaERP.Data;
 namespace SrinivasaERP.Migrations
 {
     [DbContext(typeof(AppDbContext))]
-    [Migration("20250620085612_AddResetTokenFields")]
-    partial class AddResetTokenFields
+    [Migration("20250626115235_new")]
+    partial class @new
     {
         /// <inheritdoc />
         protected override void BuildTargetModel(ModelBuilder modelBuilder)

@@ -1,11 +1,12 @@
-﻿using Microsoft.EntityFrameworkCore.Migrations;
+﻿using System;
+using Microsoft.EntityFrameworkCore.Migrations;
 
 #nullable disable
 
 namespace SrinivasaERP.Migrations
 {
     /// <inheritdoc />
-    public partial class Start : Migration
+    public partial class @new : Migration
     {
         /// <inheritdoc />
         protected override void Up(MigrationBuilder migrationBuilder)
@@ -17,9 +18,11 @@ namespace SrinivasaERP.Migrations
                     UserID = table.Column<string>(type: "nvarchar(450)", nullable: false),
                     Name = table.Column<string>(type: "nvarchar(25)", maxLength: 25, nullable: false),
                     Surname = table.Column<string>(type: "nvarchar(25)", maxLength: 25, nullable: false),
-                    Phone = table.Column<string>(type: "nvarchar(13)", maxLength: 13, nullable: false),
+                    Phone = table.Column<string>(type: "nvarchar(max)", nullable: false),
                     Email = table.Column<string>(type: "nvarchar(max)", nullable: false),
-                    Password = table.Column<string>(type: "nvarchar(12)", maxLength: 12, nullable: false)
+                    Password = table.Column<string>(type: "nvarchar(12)", maxLength: 12, nullable: false),
+                    ResetToken = table.Column<string>(type: "nvarchar(max)", nullable: true),
+                    ResetTokenExpiry = table.Column<DateTime>(type: "datetime2", nullable: true)
                 },
                 constraints: table =>
                 {
