@@ -37,9 +37,10 @@ namespace SrinivasaERP.Controllers
             var user = _context.Registers
                 .FirstOrDefault(u => (u.UserID == input || u.Email == input) && u.Password == password);
 
-            if (user != null)
+            if (user!= null)
             {
-                HttpContext.Session.SetString("UserName", user.Name);
+                HttpContext.Session.SetString("UserName", user.Name );
+                HttpContext.Session.SetString("UserEmail", user.Email);
                 return RedirectToAction("Dashbord");
             }
 
@@ -141,7 +142,7 @@ namespace SrinivasaERP.Controllers
 
         public IActionResult Dashbord()
         {
-            var userName = HttpContext.Session.GetString("UserName");
+            var userName = HttpContext.Session.GetString("UserEmail");
             ViewBag.Name = userName;
             return View();
         }
