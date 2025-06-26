@@ -364,3 +364,4 @@ FodyWeavers.xsd
 /SrinivasaERP/Properties/launchSettings.json
 /SrinivasaERP/.config/dotnet-tools.json
 /SrinivasaERP/Migrations
+/SrinivasaERP/Views/Home/Register.cshtml
