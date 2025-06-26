@@ -140,8 +140,10 @@ namespace SrinivasaERP.Controllers
             }
         }
 
+
         public IActionResult Dashbord()
         {
+            
             var userName = HttpContext.Session.GetString("UserEmail");
             ViewBag.Name = userName;
             return View();
@@ -153,5 +155,13 @@ namespace SrinivasaERP.Controllers
             ViewBag.Name = userName;
             return View();
         }
+
+        [HttpPost]
+        public IActionResult Logout()
+        {
+            HttpContext.Session.Clear(); // or sign out logic
+            return RedirectToAction("Login", "Login");
+        }
+
     }
 }
