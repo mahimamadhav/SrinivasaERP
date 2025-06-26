@@ -19,6 +19,15 @@
         }, 5000); // Wait 5 seconds before redirecting
     </script>
 }
+<style>
+    input.input-validation-error {
+        border: 2px solid red;
+    }
+
+    span.field-validation-error {
+        color: red;
+    }
+</style>
 
 @using (Html.BeginForm("Register", "Home", FormMethod.Post))
 {

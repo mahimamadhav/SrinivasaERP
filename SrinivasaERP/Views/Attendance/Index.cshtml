@@ -1,4 +1,5 @@
 ﻿@model SrinivasaERP.Models.AttendanceViewModel
+@using Newtonsoft.Json
 @{
     Layout = null;
 }
@@ -9,6 +10,7 @@
     <meta name="viewport" content="width=device-width" />
     <title>Attendance Dashboard</title>
     <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css" rel="stylesheet" />
+    <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
     <style>
         body {
             margin: 0;
@@ -107,48 +109,135 @@
 
                     <p><strong>Today, @Model.TodayDate.ToString("MMMM d, yyyy")</strong></p>
                     <p>
-                        In Time: @Model.TodayInTime ?? "—" &nbsp;&nbsp;&nbsp;
-                        Out Time: @Model.TodayOutTime ?? "—" &nbsp;&nbsp;&nbsp;
-                        Out Location: @Model.TodayOutLocation ?? "—"
+                        In Time: @(Model.TodayInTime ?? "—") &nbsp;&nbsp;&nbsp;
+                        Out Time: @(Model.TodayOutTime ?? "—") &nbsp;&nbsp;&nbsp;
+                        Out Location: @(Model.TodayOutLocation ?? "—")
                         &nbsp;&nbsp;&nbsp;
                         <a href="#">Punch Logs</a>
                     </p>
 
                     <p><strong>Yesterday, @Model.YesterdayDate.ToString("MMMM d, yyyy")</strong></p>
                     <p>
-                        In Time: @Model.YesterdayInTime ?? "—" &nbsp;&nbsp;&nbsp;
-                        Out Time: @Model.YesterdayOutTime ?? "—" &nbsp;&nbsp;&nbsp;
-                        Out Location: @Model.YesterdayOutLocation ?? "—"
+                        In Time: @(Model.YesterdayInTime ?? "—") &nbsp;&nbsp;&nbsp;
+                        Out Time: @(Model.YesterdayOutTime ?? "—") &nbsp;&nbsp;&nbsp;
+                        Out Location: @(Model.YesterdayOutLocation ?? "—")
                     </p>
                 </div>
+
+                <div class="card">
+                    <h3>
+                        Attendance Data
+                        <span style="float:right">
+                            @{
+                                var selectedDays = Context.Request.Query["days"].ToString();
+                            }
+
+                            <select id="monthRangeSelect">
+                                <option value="7">Last 1 Week</option>
+                                <option value="30">Last 1 Month</option>
+                                <option value="90">Last 3 Months</option>
+                                <option value="180">Last 6 Months</option>
+                                <option value="365">Last 1 Year</option>
+                            </select>
+
+                            <script>
+                                document.getElementById("monthRangeSelect").addEventListener("change", function () {
+                                    const days = this.value;
+                                    window.location.href = '/Attendance/Index?days=' + days;
+                                });
+                            </script>
+
+                    </h3>
+                    <canvas id="attendanceChart" height="100"></canvas>
+                </div>
+
             </div>
 
             <div style="flex: 1">
                 <div class="card">
                     <h3>Shift Details <a href="#" style="float:right; font-size:14px">View All</a></h3>
-                    @foreach (var shift in Model.ShiftDetails)
+                    @if (Model.ShiftDetails != null && Model.ShiftDetails.Any())
                     {
-                        <p><strong>@shift.Date.ToString("dddd, MMM d, yyyy")</strong></p>
-                        <p>@shift.DayType</p>
-
-                        @if (!string.IsNullOrEmpty(shift.InTime) && !string.IsNullOrEmpty(shift.OutTime))
+                        foreach (var shift in Model.ShiftDetails)
                         {
-                            <p>@shift.InTime &nbsp;&nbsp;&nbsp; @shift.OutTime</p>
-                        }
+                            <p><strong>@shift.Date.ToString("dddd, MMM d, yyyy")</strong></p>
+                            <p>@shift.DayType</p>
 
-                        @if (!string.IsNullOrEmpty(shift.ShiftLabel))
-                        {
-                            <p>@shift.ShiftLabel <a href="#" style="float:right; font-size:14px">Change Shift</a></p>
+                            @if (!string.IsNullOrEmpty(shift.InTime) && !string.IsNullOrEmpty(shift.OutTime))
+                            {
+                                <p>@shift.InTime &nbsp;&nbsp;&nbsp; @shift.OutTime</p>
+                            }
+
+                            @if (!string.IsNullOrEmpty(shift.ShiftLabel))
+                            {
+                                <p>@shift.ShiftLabel <a href="#" style="float:right; font-size:14px">Change Shift</a></p>
+                            }
                         }
+                    }
+                    else
+                    {
+                        <p>No shift details available.</p>
                     }
                 </div>
 
                 <div class="card">
-                    <h3>Month Summary <span style="float:right; font-size:14px">@Model.MonthSummary.SummaryDate.ToString("MMM d, yyyy") 📅</span></h3>
-                    <p>@Model.MonthSummary.MonthName</p>
+                    @if (Model.MonthSummary != null)
+                    {
+                        <h3>
+                            Month Summary
+                            <span style="float:right; font-size:14px">
+                                @Model.MonthSummary.SummaryDate.ToString("MMM d, yyyy") 📅
+                            </span>
+                        </h3>
+                        <p>@Model.MonthSummary.MonthName</p>
+                    }
+                    else
+                    {
+                        <p>No month summary data available.</p>
+                    }
                 </div>
             </div>
         </div>
     </div>
+
+    <script>
+        const chartLabels = @Html.Raw(JsonConvert.SerializeObject(Model.Months ?? new List<string>()));
+        const presentDays = @Html.Raw(JsonConvert.SerializeObject(Model.PresentDays ?? new List<int>()));
+        const absentDays = @Html.Raw(JsonConvert.SerializeObject(Model.AbsentDays ?? new List<int>()));
+
+        const ctx = document.getElementById('attendanceChart').getContext('2d');
+
+        new Chart(ctx, {
+            type: 'bar',
+            data: {
+                labels: chartLabels,
+                datasets: [
+                    {
+                        label: 'Present Days',
+                        data: presentDays,
+                        backgroundColor: '#4a90e2'
+                    },
+                    {
+                        label: 'Absent Days',
+                        data: absentDays,
+                        backgroundColor: '#f6e58d'
+                    }
+                ]
+            },
+            options: {
+                responsive: true,
+                scales: {
+                    y: {
+                        beginAtZero: true,
+                        title: {
+                            display: true,
+                            text: 'Days'
+                        }
+                    }
+                }
+            }
+        });
+    </script>
+
 </body>
 </html>
