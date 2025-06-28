@@ -114,7 +114,7 @@ namespace SrinivasaERP.Controllers
             return View("ResetPasswordConfirmation");
         }
 
-        private void SendResetEmail(string toEmail, string resetLink)
+        private void SendResetEmail(string toEmail, string? resetLink)
         {
             var fromAddress = new MailAddress("sambasivaraokonakala90@gmail.com", "SrinivasaERP");
             var toAddress = new MailAddress(toEmail);
