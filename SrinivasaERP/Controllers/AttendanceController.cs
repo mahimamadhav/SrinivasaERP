@@ -1,15 +1,24 @@
 ﻿using System;
 using System.Collections.Generic;
 using Microsoft.AspNetCore.Mvc;
+using Microsoft.EntityFrameworkCore;
+using SrinivasaERP.Data;
 using SrinivasaERP.Models;
 
 namespace SrinivasaERP.Controllers
 {
     public class AttendanceController : Controller
     {
+        private readonly AppDbContext _context;
+
+        public AttendanceController(AppDbContext context)
+        {
+            _context = context;
+        }
+
         public ActionResult Index()
         {
-            
+
             var shiftDetails = new List<ShiftDetail>
             {
                 new ShiftDetail
@@ -48,6 +57,34 @@ namespace SrinivasaERP.Controllers
             };
 
             return View(model); // This will return Views/Attendance/Index.cshtml
+        }
+
+        [HttpGet]
+        public ActionResult Leave()
+        {
+            // You can initialize any data needed for the Leave view here
+            return View(); // This will return Views/Attendance/Leave.cshtml
+        }
+
+
+
+        [HttpPost]
+        public ActionResult Leave(ApplyLeave Leave)
+        {
+            // Validate the model state and save the leave application
+
+            _context.ApplyLeaves.Add(Leave);
+            _context.SaveChanges();
+            return RedirectToAction("LeaveHistory"); // Redirect to the LeaveHistory action after saving
+
+        }
+
+        public IActionResult LeaveHistory()
+        {
+            var leaveRequests = _context.ApplyLeaves
+                                        .OrderBy(lr => lr.StartDate)
+                                        .ToList();
+            return View(leaveRequests);
         }
     }
 }

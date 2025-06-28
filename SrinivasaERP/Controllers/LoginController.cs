@@ -1,10 +1,11 @@
 ﻿using Microsoft.AspNetCore.Mvc;
-using SrinivasaERP.Models;
-using System.Reflection;
-using System.Data.SqlClient;
 using Microsoft.EntityFrameworkCore;
 using SrinivasaERP.Data;
+using SrinivasaERP.Models;
+using System.Data.SqlClient;
 using System.Linq;
+using System.Reflection;
+using System.Text.RegularExpressions;
 
 
 namespace SrinivasaERP.Controllers
@@ -34,14 +35,16 @@ namespace SrinivasaERP.Controllers
                 return View(model);
             }
 
+
             var input = model.EmployeeIDOrEmail?.Trim();
             var password = model.Password?.Trim();
-
+            
             Console.WriteLine($"Input: {input}, {password}");
             var user = _context.Registers
                 .FirstOrDefault(u =>
                     (u.UserID == input || u.Email == input) &&
                     u.Password == password);
+                 
 
             if (user != null)
             {

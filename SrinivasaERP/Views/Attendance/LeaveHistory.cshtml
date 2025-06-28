@@ -1,0 +1,89 @@
+﻿@*
+    For more information on enabling MVC for empty projects, visit https://go.microsoft.com/fwlink/?LinkID=397860
+*@
+@{
+}
+@{
+        Layout = null;
+    }
+
+    <!DOCTYPE html>
+    <html>
+    <head>
+        <style>
+        .table-container {
+        padding: 20px;
+        background-color: #fff;
+        border-radius: 8px;
+        box-shadow: 0 2px 8px rgba(0, 0, 0, 0.1);
+        margin-top: 20px;
+        }
+
+        .table th, .table td {
+        vertical-align: middle;
+        font-size: 0.95rem;
+        padding: 12px;
+        }
+
+        .table-striped > tbody > tr:nth-of-type(odd) {
+        background-color: #f9f9f9;
+        }
+
+        .badge {
+        font-size: 0.85rem;
+        padding: 5px 10px;
+        border-radius: 12px;
+        }
+    </style>
+    </head>
+    <body>
+
+        <div class="table-responsive">
+            <table class="table table-bordered table-hover table-striped align-middle text-center">
+                <thead class="table-dark">
+                    <tr>
+                        <th scope="col">Leave Type</th>
+                        <th scope="col">Start Date</th>
+                        <th scope="col">End Date</th>
+                        <th scope="col">Status</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    @foreach (var leave in Model)
+                    {
+                        <tr>
+                            <td>@leave.LeaveType</td>
+                            <td>@leave.StartDate.ToShortDateString()</td>
+                            <td>@leave.EndDate.ToShortDateString()</td>
+                            <td>
+                                <span class="badge @(leave.Status == "Approved" ? "bg-success" : leave.Status == "Pending" ? "bg-warning text-dark" : "bg-danger")">
+                                    @leave.Status
+                                </span>
+                            </td>
+                        </tr>
+                    }
+                </tbody>
+            </table>
+        </div>
+
+    </body>
+    </html>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
