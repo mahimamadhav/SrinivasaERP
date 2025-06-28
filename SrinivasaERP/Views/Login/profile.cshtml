@@ -1,5 +1,6 @@
 ﻿@{
     ViewBag.Title = "Profile Details";
+    
 }
 
 <!-- Sidebar -->
@@ -16,7 +17,7 @@
 <!-- Header -->
 <div class="header">
     <img src="~/images/logo.png" alt="Logo" class="logo"  />
-    <p class="welcome">Welcome, Samba Siva Rao</p>
+    <p class="welcome">Welcome, @ViewBag.Name</p>
 </div>
 
 <!-- Top Navigation -->
@@ -57,7 +58,7 @@
     .sidebar {
         position: fixed;
         top:235px;
-        left: 195px;
+        left: 170px;
         bottom: 100px;
         width: 60px;
         background-color: #ffffff;
