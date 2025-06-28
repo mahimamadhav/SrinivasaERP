@@ -8,7 +8,7 @@ namespace SrinivasaERP.Data
     {
         public DbSet<Register> Registers { get; set; } // keep as-is
         public DbSet<CurrentAddress> CurrentAddresses { get; set; }
-
+        public DbSet<ApplyLeave> ApplyLeaves { get; set; }
         public object? Users { get; internal set; }
         
         

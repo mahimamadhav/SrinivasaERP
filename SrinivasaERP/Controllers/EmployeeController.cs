@@ -2,6 +2,7 @@
 using Microsoft.EntityFrameworkCore;
 using SrinivasaERP.Data;
 using SrinivasaERP.Models;
+using System;
 
 namespace SrinivasaERP.Controllers
 {
@@ -34,7 +35,7 @@ namespace SrinivasaERP.Controllers
             return User.Identity.Name ?? "default-user-id";
         }
 
-        private List<string> GetCities() => new() { "Delhi", "Mumbai", "Bangalore", "Hyderabad" };
-        private List<string> GetStates() => new() { "Maharashtra", "Karnataka", "Delhi", "Telangana" };
+        private List<string> GetCities() => new() { "Delhi", "Mumbai", "Bangalore", "Hyderabad","Guntur","Nellore" };
+        private List<string> GetStates() => new() { "Arunachal Pradesh", "Andhra Pradesh", "Bihar", "Assam", "Chhattisgarh", "Goa", "Gujarat", "Haryana", "Himachal Pradesh", "Jammu", "Jharkhand", "Karnataka", "Kerala", "Maharashtra", "Manipur", "Meghalaya", "Mizoram", "Nagaland", "Odisha", "Punjab", "Rajasthan", "Sikkim", "Tamil Nadu", "Telangana", "Tripura", "Uttarakhand", "Uttar Pradesh", "West Bengal", "Madhya Pradesh" };
     }
 }
