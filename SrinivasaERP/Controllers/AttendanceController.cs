@@ -1,135 +1,90 @@
 ﻿using System;
 using System.Collections.Generic;
 using Microsoft.AspNetCore.Mvc;
-using Microsoft.Data.SqlClient;
+using Microsoft.EntityFrameworkCore;
+using SrinivasaERP.Data;
 using SrinivasaERP.Models;
 
 namespace SrinivasaERP.Controllers
 {
     public class AttendanceController : Controller
     {
-        private readonly IConfiguration _configuration;
+        private readonly AppDbContext _context;
 
-        public AttendanceController(IConfiguration configuration)
+        public AttendanceController(AppDbContext context)
         {
-            _configuration = configuration;
+            _context = context;
         }
 
-        
-        public ActionResult Index(int days = 7)
+        public ActionResult Index()
         {
-            var viewModel = new AttendanceViewModel();
-            string attendanceConnStr = _configuration.GetConnectionString("AttendanceDBConnection");
 
-            try
+            var shiftDetails = new List<ShiftDetail>
             {
-                using (SqlConnection conn = new SqlConnection(attendanceConnStr))
+                new ShiftDetail
                 {
-                    conn.Open();
-
-                    var today = DateTime.Today;
-                    var yesterday = today.AddDays(-1);
-
-                 
-                    LoadAttendanceData(conn, today, out var todayDate, out var todayInTime, out var todayOutTime, out var todayOutLocation);
-                    viewModel.TodayDate = todayDate;
-                    viewModel.TodayInTime = todayInTime;
-                    viewModel.TodayOutTime = todayOutTime;
-                    viewModel.TodayOutLocation = todayOutLocation;
-
-                    LoadAttendanceData(conn, yesterday, out var yesterdayDate, out var yesterdayInTime, out var yesterdayOutTime, out var yesterdayOutLocation);
-                    viewModel.YesterdayDate = yesterdayDate;
-                    viewModel.YesterdayInTime = yesterdayInTime;
-                    viewModel.YesterdayOutTime = yesterdayOutTime;
-                    viewModel.YesterdayOutLocation = yesterdayOutLocation;
-
-                    
-                    viewModel.ShiftDetails = LoadShiftDetails(conn);
-
-                    viewModel.MonthSummary = new MonthSummary
-                    {
-                        SummaryDate = DateTime.Today,
-                        MonthName = DateTime.Today.ToString("MMMM yyyy")
-                    };
-
-                    int monthsToShow;
-                    if (days <= 30)
-                        monthsToShow = 1;
-                    else if (days <= 90)
-                        monthsToShow = 3;
-                    else if (days <= 180)
-                        monthsToShow = 6;
-                    else
-                        monthsToShow = 12;
-
-                    viewModel.Months = new List<string>();
-                    viewModel.PresentDays = new List<int>();
-                    viewModel.AbsentDays = new List<int>();
-
-                    var start = DateTime.Today.AddMonths(-monthsToShow + 1);
-                    var rnd = new Random();
-
-                    for (int i = 0; i < monthsToShow; i++)
-                    {
-                        var month = start.AddMonths(i);
-                        viewModel.Months.Add(month.ToString("MMM yyyy"));
-                        viewModel.PresentDays.Add(rnd.Next(18, 23)); 
-                        viewModel.AbsentDays.Add(rnd.Next(0, 3));    
-                    }
+                    Date = DateTime.Today,
+                    DayType = "Week Off",
+                    InTime = null,
+                    OutTime = null,
+                    ShiftLabel = ""
+                },
+                new ShiftDetail
+                {
+                    Date = DateTime.Today.AddDays(1),
+                    DayType = "Regular Shift 8:00AM – 6:00PM",
+                    InTime = "9:00AM",
+                    OutTime = "6:00PM",
+                    ShiftLabel = "Change Shift"
                 }
-            }
-            catch (Exception ex)
+            };
+
+            // Month summary data
+            var monthSummary = new MonthSummary
             {
-                Console.WriteLine($"Error loading dashboard data: {ex.Message}");
-                ViewBag.ErrorMessage = "Unable to load attendance data.";
-            }
+                SummaryDate = DateTime.Today,
+                MonthName = DateTime.Today.ToString("MMMM, yyyy")
+            };
 
+            // Create the ViewModel
+            var model = new AttendanceViewModel
+            {
+                TodayDate = DateTime.Today,
+                YesterdayDate = DateTime.Today.AddDays(-1),
+                TomorrowDate = DateTime.Today.AddDays(1),
+                ShiftDetails = shiftDetails,
+                MonthSummary = monthSummary
+            };
 
-            return View(viewModel);
+            return View(model); // This will return Views/Attendance/Index.cshtml
         }
 
-        private void LoadAttendanceData(SqlConnection conn, DateTime date, out DateTime outDate, out string? inTime, out string? outTime, out string? outLocation)
+        [HttpGet]
+        public ActionResult Leave()
         {
-            outDate = date;
-            inTime = outTime = outLocation = null;
-
-            using (SqlCommand cmd = new SqlCommand("SELECT TOP 1 InTime, OutTime, OutLocation FROM AttendanceLogs WHERE Date = @Date", conn))
-            {
-                cmd.Parameters.AddWithValue("@Date", date);
-
-                using (SqlDataReader reader = cmd.ExecuteReader())
-                {
-                    if (reader.Read())
-                    {
-                        inTime = reader["InTime"] != DBNull.Value ? reader["InTime"].ToString() : null;
-                        outTime = reader["OutTime"] != DBNull.Value ? reader["OutTime"].ToString() : null;
-                        outLocation = reader["OutLocation"] != DBNull.Value ? reader["OutLocation"].ToString() : null;
-                    }
-                }
-            }
+            // You can initialize any data needed for the Leave view here
+            return View(); // This will return Views/Attendance/Leave.cshtml
         }
 
-        private List<ShiftDetail> LoadShiftDetails(SqlConnection conn)
+
+
+        [HttpPost]
+        public ActionResult Leave(ApplyLeave Leave)
         {
-            var shiftDetails = new List<ShiftDetail>();
+            // Validate the model state and save the leave application
 
-            using (SqlCommand cmd = new SqlCommand("SELECT TOP 5 Date, DayType, InTime, OutTime, ShiftLabel FROM ShiftDetails ORDER BY Date DESC", conn))
-            using (SqlDataReader reader = cmd.ExecuteReader())
-            {
-                while (reader.Read())
-                {
-                    shiftDetails.Add(new ShiftDetail
-                    {
-                        Date = reader["Date"] != DBNull.Value ? Convert.ToDateTime(reader["Date"]) : DateTime.MinValue,
-                        DayType = reader["DayType"]?.ToString(),
-                        InTime = reader["InTime"]?.ToString(),
-                        OutTime = reader["OutTime"]?.ToString(),
-                        ShiftLabel = reader["ShiftLabel"]?.ToString()
-                    });
-                }
-            }
+            _context.ApplyLeaves.Add(Leave);
+            _context.SaveChanges();
+            return RedirectToAction("LeaveHistory"); // Redirect to the LeaveHistory action after saving
 
-            return shiftDetails;
+        }
+
+        public IActionResult LeaveHistory()
+        {
+            var leaveRequests = _context.ApplyLeaves
+                                        .OrderBy(lr => lr.StartDate)
+                                        .ToList();
+            return View(leaveRequests);
         }
     }
 }
