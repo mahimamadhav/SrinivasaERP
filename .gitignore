@@ -367,3 +367,4 @@ FodyWeavers.xsd
 /SrinivasaERP/Views/Home/Register.cshtml
 /SrinivasaERP/Migrations/20250626115235_new.cs
 /SrinivasaERP/Migrations/20250626115235_new.Designer.cs
+/SrinivasaERP/Migrations/AppDbContextModelSnapshot.cs
