@@ -9,7 +9,7 @@ namespace SrinivasaERP.Models
         public string? TodayInTime { get; set; }
         public string? TodayOutTime { get; set; }
         public string? TodayOutLocation { get; set; }
-
+        public DateTime TomorrowDate {  get; set; }
         public DateTime YesterdayDate { get; set; }
         public string? YesterdayInTime { get; set; }
         public string? YesterdayOutTime { get; set; }

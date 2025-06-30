@@ -1,0 +1,214 @@
+﻿@{
+    Layout = null;
+}
+
+<!DOCTYPE html>
+<html>
+<head>
+    <meta name="viewport" content="width=device-width" />
+    <title>Attendance Dashboard</title>
+    <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css" rel="stylesheet" />
+    <style>
+        body {
+            margin: 0;
+            font-family: Arial, sans-serif;
+            
+        }
+
+        .sidebar {
+            width: 240px;
+            background-color: #2d3748;
+            color: white;
+            height: 100vh;
+            position: fixed;
+            padding-top: 20px;
+        }
+
+            .sidebar a {
+                display: block;
+                padding: 16px;
+                color: white;
+                text-decoration: none;
+            }
+
+                .sidebar a.active, .sidebar a:hover {
+                    background-color: #4a5568;
+                }
+
+        .main {
+            margin-left: 240px;
+            padding: 20px;
+        }
+
+        .header {
+            font-size: 24px;
+            font-weight: bold;
+            margin-bottom: 20px;
+        }
+
+        .tabs {
+            display: flex;
+            gap: 16px;
+            margin-bottom: 24px;
+        }
+
+            .tabs div {
+                padding: 8px 16px;
+                border-bottom: 2px solid transparent;
+                cursor: pointer;
+            }
+
+            .tabs .active {
+                border-color: #4a90e2;
+                font-weight: bold;
+            }
+
+              .form-container {
+        width: 400px;
+        margin: 50px auto;
+        padding: 20px;
+      
+    }
+
+    
+.form-group {
+        display: flex;
+        flex-direction: column;
+        margin-bottom: 15px;
+    
+    }
+
+    label {
+        margin-bottom: 5px;
+        font-weight: bold;
+    }
+
+    select,
+    input[type="date"],
+    button {
+        padding: 8px;
+        border: 1px solid #ccc;
+        border-radius: 5px;
+        font-size: 14px;
+    }
+
+    button {
+        background-color: #007bff;
+        color: white;
+        border: none;
+        cursor: pointer;
+        transition: background-color 0.3s ease;
+    }
+
+        button:hover {
+            background-color: #0056b3;
+        }
+
+    #dateError {
+        font-size: 13px;
+    }
+       
+
+       
+    </style>
+</head>
+<body>
+    <div class="sidebar">
+        <a href="#"><i class="fas fa-home"></i> Home</a>
+        <a href="#"><i class="fas fa-user"></i> Profile</a>
+        <a href="#"><i class="fas fa-sitemap"></i> Hierarchy</a>
+        <a href="@Url.Action("Dashboard", "Attendance")" class="active"><i class="fas fa-calendar-alt"></i> Attendance</a>
+        <a href="@Url.Action("Leave", "Attendance")"><i class="fas fa-plane"></i> Leave</a>
+    </div>
+
+    <div class="main">
+        <div class="header">Attendance Management</div>
+
+        <div class="tabs">
+            <div class="active">Dashboard</div>
+            <div>Attendance Details</div>
+            <div>My Shifts</div>
+            <div>Attendance Policies</div>
+            <div>Requests</div>
+            <div>Apply</div>
+        </div>
+    </div>
+   
+
+   
+        
+<div class="form-container">
+    <h2 style="position:center;color:red">Apply for Leave</h2>
+    @using (Html.BeginForm("Leave", "Attendance", FormMethod.Post))
+    {
+        <div class="form-group">
+            <label for="LeaveType">Leave Type:</label>
+            <select id="LeaveType" name="LeaveType">
+                <option value="">-- Select Leave Type --</option>
+                <option value="Sick">Sick Leave</option>
+                <option value="Casual">Casual Leave</option>
+                <option value="Paid">Paid Leave</option>
+            </select>
+        </div>
+
+        <div class="form-group">
+            <label for="StartDate">Start Date:</label>
+            <input type="date" id="StartDate" name="StartDate" />
+        </div>
+
+        <div class="form-group">
+            <label for="EndDate">End Date:</label>
+            <input type="date" id="EndDate" name="EndDate" />
+        </div>
+
+        <span id="dateError" style="color: red;"></span>
+
+        <br />
+
+       
+    <button type="submit" class="btn btn-primary" onclick="return validateForm()">Submit</button>
+
+    }
+</div>
+ 
+  
+  
+    
+      
+      
+</body>
+
+</html>
+
+<script>
+    function validateForm() {
+        const startInput = document.getElementById("StartDate").value;
+        const endInput = document.getElementById("EndDate").value;
+        const today = new Date();
+        today.setHours(0, 0, 0, 0);
+
+        const error = document.getElementById("dateError");
+
+        if (!startInput || !endInput) {
+            error.textContent = "Please select both start and end dates.";
+            return false;
+        }
+
+        const start = new Date(startInput);
+        const end = new Date(endInput);
+
+        if (start < today) {
+            error.textContent = "Start date cannot be in the past.";
+            return false;
+        }
+
+        if (end < start) {
+            error.textContent = "End date cannot be before start date.";
+            return false;
+        }
+
+        error.textContent = "";
+        return true;
+    }
+</script>
+

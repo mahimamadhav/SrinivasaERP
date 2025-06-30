@@ -1,13 +1,16 @@
 ﻿using Microsoft.EntityFrameworkCore;
+using SrinivasaERP.Models;
 using System.Collections.Generic;
 
 namespace SrinivasaERP.Data
 {
-    public class AppDbContext : DbContext
+    public class AppDbContext(DbContextOptions<AppDbContext> options) : DbContext(options)
     {
-        public AppDbContext(DbContextOptions<AppDbContext> options) : base(options) { }
-
-        public DbSet<SrinivasaERP.Models.Register> Registers { get; set; }
-        public object Users { get; internal set; }
+        public DbSet<Register> Registers { get; set; } // keep as-is
+        public DbSet<CurrentAddress> CurrentAddresses { get; set; }
+        public DbSet<ApplyLeave> ApplyLeaves { get; set; }
+        public object? Users { get; internal set; }
+        
+        
     }
 }

@@ -1,6 +1,6 @@
 ﻿@{
     ViewData["Title"] = "Dashboard";
-    var userName = ViewBag.UserName;
+    
 }
 
 <div class="main-container">
@@ -18,10 +18,10 @@
             <h1 class="title">SRINIVASA TOURS <br />& TRAVELS</h1>
 
             <div class="user-controls">
-                <div class="welcome">Welcome,<br />@ViewBag.Name</div>
+                <div class="welcome">Welcome,@ViewBag.Name1<br />@ViewBag.Name</div>
 
-                <form asp-controller="Account" asp-action="Logout" method="post">
-                    @Html.AntiForgeryToken()
+                <form asp-controller="Login" asp-action="Login" method="post">
+                   
                     <button type="submit" class="logout-btn">Logout</button>
                 </form>
             </div>

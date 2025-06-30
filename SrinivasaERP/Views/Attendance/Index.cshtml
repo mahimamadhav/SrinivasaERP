@@ -83,23 +83,25 @@
 </head>
 <body>
     <div class="sidebar">
-        <a href="#"><i class="fas fa-home"></i> Home</a>
-        <a href="#"><i class="fas fa-user"></i> Profile</a>
-        <a href="#"><i class="fas fa-sitemap"></i> Hierarchy</a>
-        <a href="@Url.Action("Dashboard", "Attendance")" class="active"><i class="fas fa-calendar-alt"></i> Attendance</a>
-        <a href="#"><i class="fas fa-plane"></i> Leave</a>
+        <a href="@Url.Action("Dashbord", "Login")"><i class="fas fa-home"></i> Home</a>
+        <a href="@Url.Action("Profile","Login")"><i class="fas fa-user"></i> Profile</a>
+        <a href="@Url.Action("Dashbord", "Login")"><i class="fas fa-sitemap"></i> Hierarchy</a>
+        <a href="@Url.Action("Dashbord", "Login")" class="active"><i class="fas fa-calendar-alt"></i> Attendance</a>
+        <a href="@Url.Action("Dashbord", "Login")"><i class="fas fa-plane"></i> Leave</a>
     </div>
 
     <div class="main">
         <div class="header">Attendance Management</div>
 
         <div class="tabs">
-            <div class="active">Dashboard</div>
+            <div class="active" onclick="location.href='@Url.Action("Dashbord", "Login")'">Dashboard</div>
             <div>Attendance Details</div>
             <div>My Shifts</div>
             <div>Attendance Policies</div>
             <div>Requests</div>
-            <div>Apply</div>
+            <div onclick="location.href='@Url.Action("Leave", "Attendance")'" style="cursor: pointer;">Apply</div>
+            
+
         </div>
 
         <div class="flex-row">
