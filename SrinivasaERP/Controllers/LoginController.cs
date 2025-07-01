@@ -37,9 +37,10 @@ namespace SrinivasaERP.Controllers
             var user = _context.Registers
                 .FirstOrDefault(u => (u.UserID == input || u.Email == input) && u.Password == password);
 
-            if (user != null)
+            if (user!= null)
             {
-                HttpContext.Session.SetString("UserName", user.Name);
+                HttpContext.Session.SetString("UserName", user.Name );
+                HttpContext.Session.SetString("UserEmail", user.Email);
                 return RedirectToAction("Dashbord");
             }
 
@@ -113,7 +114,7 @@ namespace SrinivasaERP.Controllers
             return View("ResetPasswordConfirmation");
         }
 
-        private void SendResetEmail(string toEmail, string resetLink)
+        private void SendResetEmail(string toEmail, string? resetLink)
         {
             var fromAddress = new MailAddress("sambasivaraokonakala90@gmail.com", "SrinivasaERP");
             var toAddress = new MailAddress(toEmail);
@@ -139,10 +140,14 @@ namespace SrinivasaERP.Controllers
             }
         }
 
+
         public IActionResult Dashbord()
         {
-            var userName = HttpContext.Session.GetString("UserName");
+            
+            var userName = HttpContext.Session.GetString("UserEmail");
+            var Name = HttpContext.Session.GetString("UserName");
             ViewBag.Name = userName;
+            ViewBag.Name1 = Name;
             return View();
         }
 
@@ -152,5 +157,13 @@ namespace SrinivasaERP.Controllers
             ViewBag.Name = userName;
             return View();
         }
+
+        [HttpPost]
+        public IActionResult Logout()
+        {
+            HttpContext.Session.Clear(); // or sign out logic
+            return RedirectToAction("Login", "Login");
+        }
+
     }
 }
