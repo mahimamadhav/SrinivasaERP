@@ -15,8 +15,8 @@ namespace SrinivasaERP
 
             // Add Razor with runtime compilation (optional: wrap in DEBUG)
 #if DEBUG
-            services.AddControllersWithViews()
-                    .AddRazorRuntimeCompilation();
+            services.AddControllersWithViews();
+                    
 #else
             services.AddControllersWithViews();
 #endif
