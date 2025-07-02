@@ -15,6 +15,9 @@
 {
     <script>
         alert("Registration completed successfully!");
+         setTimeout(function () {
+            window.location.href = '@Url.Action("Login", "Login")';
+        }, 2000);
     </script>
 }
 <style>

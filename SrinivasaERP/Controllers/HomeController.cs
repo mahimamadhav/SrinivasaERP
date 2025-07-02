@@ -32,14 +32,14 @@ namespace SrinivasaERP.Controllers
         public JsonResult CheckUserID(string userID)
         {
             bool exists = _context.Registers.Any(u => u.UserID == userID);
-            return Json(!exists); // true means available
+            return Json(!exists); 
         }
 
         [HttpPost]
         public JsonResult CheckEmail(string email)
         {
             bool exists = _context.Registers.Any(u => u.Email == email);
-            return Json(!exists); // true means available
+            return Json(!exists); 
         }
 
 
