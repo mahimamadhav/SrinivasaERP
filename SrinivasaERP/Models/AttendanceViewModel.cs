@@ -15,6 +15,7 @@ namespace SrinivasaERP.Models
         public string? YesterdayOutTime { get; set; }
         public string? YesterdayOutLocation { get; set; }
 
+
         public List<ShiftDetail> ShiftDetails { get; set; } = new();
         public MonthSummary MonthSummary { get; set; } = new();
 
