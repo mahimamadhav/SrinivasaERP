@@ -85,9 +85,9 @@
     <div class="sidebar">
         <a href="@Url.Action("Dashbord", "Login")"><i class="fas fa-home"></i> Home</a>
         <a href="@Url.Action("Profile","Login")"><i class="fas fa-user"></i> Profile</a>
-        <a href="@Url.Action("Dashbord", "Login")"><i class="fas fa-sitemap"></i> Hierarchy</a>
-        <a href="@Url.Action("Dashbord", "Login")" class="active"><i class="fas fa-calendar-alt"></i> Attendance</a>
-        <a href="@Url.Action("Dashbord", "Login")"><i class="fas fa-plane"></i> Leave</a>
+        <a href="@Url.Action("Hierarchy", "Login")"><i class="fas fa-sitemap"></i> Hierarchy</a>
+        <a href="/Attendance/Index"><i class="fas fa-calendar-alt"></i> Attendance</a>
+        <a href="/Attendance/Leave"><i class="fas fa-plane"></i> Leave</a>
     </div>
 
     <div class="main">
@@ -129,7 +129,7 @@
                 <div class="card">
                     <h3>
                         Attendance Data
-                        <span style="float:right">
+                        <span style="float:right"></span>
                             @{
                                 var selectedDays = Context.Request.Query["days"].ToString();
                             }
