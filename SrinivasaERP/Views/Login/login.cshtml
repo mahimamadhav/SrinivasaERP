@@ -30,8 +30,8 @@
         font-family: 'Segoe UI', sans-serif;
         background: linear-gradient(to right, rgba(0, 0, 0, 0.4), rgba(0, 0, 0, 0.6)), url("https://cdn.pixabay.com/photo/2022/05/22/11/10/highway-7213206_1280.jpg") no-repeat center center fixed;
         min-height: 100vh;
-        /* display: flex; */
-        justify-content: center;
+        /* display: flex;  */
+        justify-content: center; 
         align-items: center;
     }
 
@@ -43,14 +43,14 @@
         box-shadow: 0 10px 30px rgba(0, 0, 0, 0.3);
         width: 90%;
         max-width: 1000px;
-        margin-bottom: 100px;
+        margin-bottom: 100px; 
+        margin-left:10px;
     }
 
-    .login-left, .login-right {
+    .login-left,
+    .login-right {
         flex: 1;
         padding: 40px;
-
-        
     }
 
     .login-left {
@@ -77,11 +77,11 @@
         }
 
     .login-right {
-        background-color:white;
+        background-color: white;
         display: flex;
         flex-direction: column;
         justify-content: center;
-        
+        min-height: 400px; 
     }
 
         .login-right .logo {
@@ -136,7 +136,8 @@
         flex-direction: column;
     }
 
-    .login-left, .login-right {
+    .login-left,
+    .login-right {
         padding: 20px;
     }
 
@@ -171,13 +172,15 @@
 
     }
 
-    #eyeIcon{
+    #eyeIcon {
         padding-top: 30px;
     }
+
 
 </style>
 
 <div class="login-container">
+
     <div class="login-left">
         <h2>SRINIVASA TOURS & TRAVELS</h2>
         <p>Reliable · Safe · Affordable</p>
@@ -189,7 +192,6 @@
         <h2 class="text-center fw-bold mb-4 login-heading">
             <i class="fas fa-user-circle me-2 text-primary"></i>Login
         </h2>
-
 
         <form asp-action="Login" method="post">
             <!-- Employee ID / Email Field -->
