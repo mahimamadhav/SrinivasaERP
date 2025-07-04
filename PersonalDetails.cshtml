@@ -1,0 +1,142 @@
+﻿@model SrinivasaERP.Models.EmployeeProfileViewModel
+
+@section Scripts {
+    <partial name="_ValidationScriptsPartial" />
+}
+
+
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css" />
+
+<div class="d-flex justify-content-sm-between">
+    <div class="container-fluid">
+        <nav class="navbar navbar-expand-lg navbar-black bg-danger border-bottom mb-xl">
+            <img src="~/Images/logo.png" class="rounded-pill" alt="Logo" style="width: 90px; height: 90px; margin-right:200px;margin-left:10px;">
+
+            @* <ul class="navbar-nav me-2 mb-3 mb-lg-0  mt-5 me-lg-5"> *@
+                <ul class="navbar-nav me-auto mb-2 mb-lg-0 navbar-collapse">
+
+                <li class="nav-item"><a class="nav-link fw-bold" href="#">Profile</a></li>
+                <li class="nav-item"><a class="nav-link fw-bold" href="#">Work Flows</a></li>
+                <li class="nav-item"><a class="nav-link fw-bold" href="#">Attendance</a></li>
+                <li class="nav-item"><a class="nav-link fw-bold" href="#">Leave</a></li>
+                <li class="nav-item"><a class="nav-link fw-bold" href="#">Finance</a></li>
+                <li class="nav-item"><a class="nav-link fw-bold" href="#">Actions</a></li>
+            </ul>
+            <div class="align-items-end"> Welcome, @ViewBag.Name</div>
+        </nav>
+    </div>
+ </div>
+
+<div class="container-fluid d-flex ">
+    <div class="bg-dark border-right p-3 " style="width: 250px; min-height: 100vh;">
+        <ul class="nav flex-column">
+            <li class="nav-item">
+                <a class="nav-link" href=""><i class="fas fa-person"></i> Personal Details</a>
+                </a>
+            </li>
+            <li class="nav-item">
+                <a class="nav-link" href=""><i class="fas fa-calendar"></i> Current Address</a>
+                </a>
+            </li>
+            <li class="nav-item">
+                <a class="nav-link" href=""><i class="fas fa-file-text"></i> Permanent Address</a>
+                </a>
+            </li>
+            <li class="nav-item">
+                <a class="nav-link" href=""><i class="fas fa-clipboard"></i> Department</a>
+                </a>
+            </li>
+            <li class="nav-item">
+                <a class="nav-link" href=""><i class="fas fa-clipboard"></i> Emergency Details</a>
+                </a>
+            </li>
+            <li class="nav-item">
+                <a class="nav-link" href=""><i class="fas fa-gear"></i> Personal Document</a>
+                </a>
+            </li>
+        </ul>
+    </div>
+
+    <!-- Main content -->
+    <div class="p-4 flex-grow-1">
+        <form asp-action="Profile" method="post" class="form-content">
+            <div class="form-group row">
+                <div class="form-group col-6">
+                    <label>First Name (as per Aadhaar)<span style="color:red">*</span></label>
+                    <input asp-for="FirstName" class="form-control" />
+                    <span asp-validation-for="FirstName" class="text-danger"></span>
+                </div>
+                <div class="form-group col-6">
+                    <label>Surname (as per Aadhaar)<span style="color:red">*</span></label>
+                    <input asp-for="Surname" class="form-control" />
+                    <span asp-validation-for="Surname" class="text-danger"></span>
+                </div>
+                <div class=" form-group col-6">
+                    <label>Display Name<span style="color:red">*</span></label>
+                    <input asp-for="DisplayName" class="form-control" />
+                    <span asp-validation-for="DisplayName" class="text-danger"></span>
+                </div>
+                <div class="form-group col-6">
+                    <label>Phone Number<span style="color:red">*</span></label>
+                    <input asp-for="Phone" class="form-control" />
+                    <span asp-validation-for="Phone" class="text-danger"></span>
+                </div>
+            </div>
+            <div class="form-group row">
+                <div class="form-group col-6">
+                    <label>Middle Name (as per Aadhaar)<span style="color:red">*</span></label>
+                    <input asp-for="MiddleName" class="form-control" />
+                    <span asp-validation-for="MiddleName" class="text-danger"></span>
+                </div>
+                <div class=" form-group col-6">
+                    <label>Gender</label>
+                    <select asp-validation-for="gender" class="form-control">
+                        <option>Male</option>
+                        <option>Female</option>
+                    </select>
+                </div>
+                <div class=" form-group col-6">
+                    <label>Age <span style="color:red">*</span></label>
+                    <input asp-for="Age" class="form-control" />
+                    <span asp-validation-for="Age" class="text-danger"></span>
+                </div>
+            </div>
+        </form>
+
+    </div>
+</div>
+
+
+<style>
+    .nav-link {
+        color: #fff;
+        padding: 10px 0;
+        display: block;
+        font-weight: 500;
+        border-bottom: 1px solid rgba(255, 255, 255, 0.1);
+    }
+
+    .form-content {
+        flex: 1;
+        padding: 30px;
+        display: flex;
+        flex-wrap: wrap;
+        gap: 20px;
+    }
+
+    .row {
+        flex: 1 1 300px;
+        display: flex;
+        flex-direction: column;
+    }
+
+    label {
+        margin-bottom: 10px;
+        font-size: 14px;
+        font-weight: 500;
+    }  
+   
+
+</style>
+
+
