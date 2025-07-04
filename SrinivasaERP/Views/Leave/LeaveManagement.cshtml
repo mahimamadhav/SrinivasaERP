@@ -1,0 +1,133 @@
+﻿@{
+    ViewData["Title"] = "Leave Management";
+}
+
+<div class="row">
+    <nav class="navbar navbar-expand-lg navbar-dark bg-black border-bottom mb-4">
+        <div class="container-fluid">
+            <ul class="navbar-nav me-auto mb-2 mb-lg-0 navbar-collapse">
+                <li class="nav-item"><a class="nav-link fw-bold" href="#">Dashboard</a></li>
+                <li class="nav-item"><a class="nav-link fw-bold" href="#">Requests</a></li>
+                <li class="nav-item"><a class="nav-link fw-bold" href="#">Apply</a></li>
+                <li class="nav-item"><a class="nav-link fw-bold" href="#">Holidays</a></li>
+                <li class="nav-item"><a class="nav-link fw-bold" href="#">Leave policies</a></li>
+                <li class="nav-item"><a class="nav-link fw-bold" href="#">Reports</a></li>
+            </ul>
+        </div>
+    </nav>
+
+    <div class="w-100 d-flex justify-content-between align-items-center ">
+        <h2 class="mb-0 fw-bold text-info">Leave Management</h2>
+        <button class="btn btn-create btn-primary">Create leave request</button>
+    </div>
+
+    <!-- 🔹 Left Side: Leave Balance + Leave Status Table -->
+    <div class="col-md-6 mb-4 mt-4">
+
+        <!-- Leave Balance Section -->
+        <div class="mb-4">
+            <h4>Leave Balance</h4>
+            <div class="d-flex gap-3">
+                <div class="balance-card border rounded p-3 text-center border-dark bg-secondary-subtle">Casual Leave<br><strong>5</strong></div>
+                <div class="balance-card border rounded p-3 text-center border-dark bg-primary-subtle">Sick Leave<br><strong>3</strong></div>
+                <div class="balance-card border rounded p-3 text-center border-dark bg-info-subtle">Other Leave<br><strong>2</strong></div>
+            </div>
+        </div>
+
+        <!-- Leave Status Table -->
+        <div class="mb-4 mt-5">
+            <h4 class="text-info">Leave Status</h4>
+            <table class="table table-bordered mb-0">
+                <thead class="table-dark">
+                    <tr>
+                        <th>ID</th>
+                        <th>Leave Type</th>
+                        <th>From</th>
+                        <th>Status</th>
+                    </tr>
+                </thead>
+                <tbody class="table-primary">
+                    <tr>
+                        <td>0124</td>
+                        <td>Casual Leave</td>
+                        <td>2025-06-18</td>
+                        <td class="table-success">Approved</td>
+                    </tr>
+                    <tr>
+                        <td>0161</td>
+                        <td>Sick Leave</td>
+                        <td>2025-07-2</td>
+                        <td class="table-warning">Pending</td>
+                    </tr>
+                    <tr>
+                        <td>0150</td>
+                        <td>Earned Leave</td>
+                        <td>2025-03-31</td>
+                        <td class="table-danger">Rejected</td>
+                    </tr>
+                </tbody>
+            </table>
+        </div>
+    </div>
+
+    <!-- 🔹 Right Side: Button + Table -->
+    <div class="col-md-6 mb-4">
+       
+        <div class="mt-0">
+            <h4 class="text-info">Leaves</h4>
+            <table class="table table-bordered mb-0">
+                <thead class="table-dark">
+                    <tr>
+                        <th>ID</th>
+                        <th>Leave Type</th>
+                        <th>From</th>
+                        <th>To</th>
+                    </tr>
+                </thead>
+                <tbody class="table-primary">
+                    <tr>
+                        <td>0124</td>
+                        <td>Casual Leave</td>
+                        <td>2024-01-21</td>
+                        <td>2025-03-31</td>
+                    </tr>
+                    <tr>
+                        <td>0123</td>
+                        <td>Sick Leave</td>
+                        <td>2025-04-22</td>
+                        <td>2025-04-31</td>
+                    </tr>
+                    <tr>
+                        <td>0122</td>
+                        <td>Earned Leave</td>
+                        <td>2025-01-21</td>
+                        <td>2025-03-31</td>
+                    </tr>
+                    <tr>
+                        <td>0121</td>
+                        <td>Sick Leave</td>
+                        <td>2025-01-26</td>
+                        <td>2025-04-01</td>
+                    </tr>
+                    <tr>
+                        <td>0120</td>
+                        <td>Casual Leave</td>
+                        <td>2025-01-31</td>
+                        <td>2025-04-02</td>
+                    </tr>
+                </tbody>
+            </table>
+        </div>
+    </div>
+
+</div>
+<style>
+    
+
+    table {
+        margin-top: 10px;
+    }
+   
+   
+
+</style> 

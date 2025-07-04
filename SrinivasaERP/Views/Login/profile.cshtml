@@ -5,13 +5,13 @@
 
 <!-- Sidebar -->
 <div class="sidebar">
-    <a href="/Profile" title="Profile"><i data-lucide="user"></i></a>
-    <a href="/Employees" title="Employees"><i data-lucide="users"></i></a>
-    <a href="/Attendance/Index" title="Attendance"><i data-lucide="calendar-days"></i></a>
-    <a href="/Documents" title="Documents"><i data-lucide="file-text"></i></a>
-    <a href="/Tasks" title="Tasks"><i data-lucide="clipboard"></i></a>
-    <a href="/Reports" title="Reports"><i data-lucide="trending-up"></i></a>
-    <a href="/Settings" title="Settings"><i data-lucide="settings"></i></a>
+    <i data-lucide="user"></i>
+    <i data-lucide="users"></i>
+    <i data-lucide="calendar-days"></i>
+    <i data-lucide="file-text"></i>
+    <i data-lucide="clipboard"></i>
+    <i data-lucide="trending-up"></i>
+    <i data-lucide="settings"></i>
 </div>
 
 <!-- Header -->
@@ -22,70 +22,46 @@
 
 <!-- Top Navigation -->
 <div class="topnav">
-    <a  href="#">Profile</a>
-    <a href="#">Work Flows</a>
-    <a href="@Url.Action("Index", "Attendance")">Attendance</a>
-    <a href="@Url.Action("Leave", "Attendance")">Leave</a>
-    <a href="#">Finance</a>
-    <a href="#">Actions</a>
+    <span class="active">Profile</span>
+    <span>Work Flows</span>
+    <span>Attendance</span>
+    <span>Leave</span>
+    <span>Finance</span>
+    <span>Actions</span>
 </div>
-
 
 <!-- Title -->
 <h2 class="page-title">Profile Details</h2>
 
 <!-- Profile Cards -->
 <div class="profile-container">
-    <div class="card">Personal Details</div>
-    <div class="card" onclick="location.href='@Url.Action("CurrentAddress","Employee")'">Current Address</div>
-    <div class="card" >Permanent Address</div><br />
+    <div class="card" onclick="location.href='/Profile/PersonalDetails'">Personal Details</div>
+    <div class="card">Current Address</div>
+    <div class="card">Permanent Address</div><br />
     <div class="card">Department</div>
     <div class="card">Emergency Details</div>
     <div class="card">Personal Documents</div>
 </div>
 
 <script>
-    document.addEventListener("DOMContentLoaded", function () {
-        lucide.createIcons();
-    });
+    lucide.createIcons();
 </script>
-
 
 <!-- Styles -->
 <style>
     body {
-        background-color: #f8f9fa;
+        margin: 0;
         font-family: 'Segoe UI', sans-serif;
-    }
-
-    .header {
-        background-color: powderblue;
-        color: white;
-        padding: 15px 40px;
-        display: flex;
-        justify-content: space-between;
-        align-items: center;
-        margin-left: 60px;
-        border-bottom: 1px solid #ddd;
-    }
-
-    .welcome {
-        color: #f0f0f0;
-    }
-
-    .logo {
-        height: 60px;
-        margin-left: 300px;
+        background-color: #f9f9f9;
     }
 
     .sidebar {
-        text-decoration: none;
         position: fixed;
-        top: 235px;
+        top:235px;
         left: 170px;
         bottom: 100px;
         width: 60px;
-        background-color: powderblue;
+        background-color: #ffffff;
         display: flex;
         flex-direction: column;
         align-items: center;
@@ -96,15 +72,39 @@
 
         .sidebar i {
             font-size: 24px;
-            color: powderblue;
-            padding: 10px;
-            border-radius: 50%;
-            transition: background-color 0.3s;
+            cursor: pointer;
+            color: #333;
+            transition: color 0.3s ease;
         }
 
             .sidebar i:hover {
-                background-color: powderblue;
+                color: #007bff;
             }
+
+    .header {
+        display: flex;
+        justify-content: space-between;
+        align-items: center;
+        padding: 15px 40px;
+        margin-left: 60px;
+        background-color: white;
+    }
+
+    .logo {
+        left: 250px;
+        align-items: center;
+        justify-content: center;
+        margin-left: 300px;
+        height: 60px;
+        width: auto;
+    }
+
+    .welcome {
+        font-size: 16px;
+        font-weight: 500;
+        color: #333;
+        margin: 0;
+    }
 
     .topnav {
         display: flex;
@@ -112,31 +112,24 @@
         padding: 20px 40px;
         margin-left: 60px;
         font-size: 18px;
-        background-color: powderblue;
+        background-color: white;
         border-bottom: 1px solid #ccc;
     }
 
         .topnav span {
             cursor: pointer;
-            color: #333;
-            transition: color 0.3s ease;
+            padding-bottom: 4px;
         }
 
-            .topnav span:hover {
-                color: #007bff;
-            }
-
             .topnav span.active {
-                border-bottom: 2px solid #007bff;
+                border-bottom: 2px solid blue;
                 font-weight: bold;
-                color: #007bff;
             }
 
     .page-title {
         margin: 30px 40px 10px 120px;
-        font-size: 26px;
-        color: blue;
-        font-weight: 600;
+        font-size: 24px;
+        color: #333;
     }
 
     .profile-container {
@@ -147,31 +140,20 @@
     }
 
     .card {
-        background-color: #f0f9ff;
-        border: 1px solid #cfe2ff;
+        background-color: white;
+        border: 1px solid #ddd;
         border-radius: 12px;
         padding: 30px;
         text-align: center;
         font-size: 18px;
         font-weight: bold;
-        
+        box-shadow: 0 2px 8px rgba(0, 0, 0, 0.05);
         cursor: pointer;
-        transition: transform 0.2s, box-shadow 0.3s;
+        transition: transform 0.2s;
     }
 
         .card:hover {
             transform: scale(1.05);
-            
-            background-color: #e0f0ff;
-        }
-
-    .btn-primary {
-        background-color: #007bff;
-        border-color: #007bff;
-    }
-
-        .btn-primary:hover {
-            background-color: #0056b3;
-            border-color: #004b9a;
+            box-shadow: 0 4px 12px rgba(0, 0, 0, 0.15);
         }
 </style>
