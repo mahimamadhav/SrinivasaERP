@@ -26,10 +26,10 @@
         </div>
 
         <div class="tile-grid">
-            <div class="tile"><i class="fas fa-user"></i> <span>Profile</span></div>
+            <div class="tile"><i class="fas fa-user" onclick="location.href='@Url.Action("PersonalDetails", "Profile")'"></i> <span>Profile</span></div>
             <div class="tile"><i class="fas fa-sitemap"></i> <span>Hierarchy</span></div>
-            <div class="tile"><i class="fas fa-calendar-alt"></i> <span>Attendance</span></div>
-            <div class="tile"><i class="fas fa-file-alt"></i> <span>Leave Management</span></div>
+            <div class="tile"><i class="fas fa-calendar-alt" onclick="location.href='@Url.Action("Index", "Attendance")'"></i> <span>Attendance</span></div>
+            <div class="tile"><i class="fas fa-file-alt" onclick="location.href='@Url.Action("LeaveManagement", "Leave")'"></i> <span>Leave Management</span></div>
             <div class="tile"><i class="fas fa-coins"></i> <span>Finance</span></div>
             <div class="tile"><i class="fas fa-check"></i> <span>Actions</span></div>
         </div>
