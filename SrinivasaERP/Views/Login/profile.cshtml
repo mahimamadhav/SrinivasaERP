@@ -1,9 +1,9 @@
 ﻿@{
     ViewBag.Title = "Profile Details";
-    
 }
+<link rel="stylesheet" href="~/css/profile.css" />
 
-<!-- Sidebar -->
+<!-- Sidebar 
 <div class="sidebar">
     <a href="/Profile" title="Profile"><i data-lucide="user"></i></a>
     <a href="/Employees" title="Employees"><i data-lucide="users"></i></a>
@@ -13,23 +13,22 @@
     <a href="/Reports" title="Reports"><i data-lucide="trending-up"></i></a>
     <a href="/Settings" title="Settings"><i data-lucide="settings"></i></a>
 </div>
-
+-->
 <!-- Header -->
 <div class="header">
-    <img src="~/images/logo.png" alt="Logo" class="logo"  />
+    <img src="~/images/logo.png" alt="Logo" class="logo" />
     <p class="welcome">Welcome, @ViewBag.Name</p>
 </div>
 
 <!-- Top Navigation -->
 <div class="topnav">
-    <a  href="#">Profile</a>
+    <a href="#">Profile</a>
     <a href="#">Work Flows</a>
     <a href="@Url.Action("Index", "Attendance")">Attendance</a>
     <a href="@Url.Action("Leave", "Attendance")">Leave</a>
     <a href="#">Finance</a>
     <a href="#">Actions</a>
 </div>
-
 
 <!-- Title -->
 <h2 class="page-title">Profile Details</h2>
@@ -38,140 +37,91 @@
 <div class="profile-container">
     <div class="card">Personal Details</div>
     <div class="card" onclick="location.href='@Url.Action("CurrentAddress","Employee")'">Current Address</div>
-    <div class="card" >Permanent Address</div><br />
+    <div class="card">Permanent Address</div>
     <div class="card">Department</div>
     <div class="card">Emergency Details</div>
     <div class="card">Personal Documents</div>
 </div>
 
+<!-- Lucide icons -->
 <script>
     document.addEventListener("DOMContentLoaded", function () {
         lucide.createIcons();
     });
 </script>
 
-
-<!-- Styles -->
+<!-- Responsive CSS -->
 <style>
-    body {
-        background-color: #f8f9fa;
-        font-family: 'Segoe UI', sans-serif;
-    }
+   .sidebar {
+    position: fixed;
+    top:70px; 
+    left: 117px;
+    bottom: 60px;
+    width: 60px;
+    background-color: powderblue;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    padding-top: 20px;
+    gap: 20px;
+    box-shadow: 2px 0 5px rgba(0, 0, 0, 0.05);
+    z-index: 1000;
+}
 
-    .header {
-        background-color: powderblue;
-        color: white;
-        padding: 15px 40px;
-        display: flex;
-        justify-content: space-between;
-        align-items: center;
-        margin-left: 60px;
-        border-bottom: 1px solid #ddd;
-    }
+.header {
+    margin-left: 60px; 
+    padding: 15px 20px;
+    background-color: powderblue;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+}
 
-    .welcome {
-        color: #f0f0f0;
-    }
+.topnav {
+    margin-left: 60px; 
+    display: flex;
+    gap: 20px;
+    padding: 15px 20px;
+    background-color: powderblue;
+}
 
-    .logo {
-        height: 60px;
-        margin-left: 300px;
-    }
+.profile-container {
+    margin-left: 80px; 
+    padding: 20px;
+}
 
-    .sidebar {
-        text-decoration: none;
-        position: fixed;
-        top: 235px;
-        left: 170px;
-        bottom: 100px;
-        width: 60px;
-        background-color: powderblue;
-        display: flex;
-        flex-direction: column;
-        align-items: center;
-        padding-top: 20px;
-        gap: 20px;
-        box-shadow: 2px 0 5px rgba(0, 0, 0, 0.05);
-    }
+.page-title {
+    margin: 20px 0 10px 80px;
+}
 
-        .sidebar i {
-            font-size: 24px;
-            color: powderblue;
-            padding: 10px;
-            border-radius: 50%;
-            transition: background-color 0.3s;
-        }
-
-            .sidebar i:hover {
-                background-color: powderblue;
-            }
-
-    .topnav {
-        display: flex;
-        gap: 30px;
-        padding: 20px 40px;
-        margin-left: 60px;
-        font-size: 18px;
-        background-color: powderblue;
-        border-bottom: 1px solid #ccc;
-    }
-
-        .topnav span {
-            cursor: pointer;
-            color: #333;
-            transition: color 0.3s ease;
-        }
-
-            .topnav span:hover {
-                color: #007bff;
-            }
-
-            .topnav span.active {
-                border-bottom: 2px solid #007bff;
-                font-weight: bold;
-                color: #007bff;
-            }
-
-    .page-title {
-        margin: 30px 40px 10px 120px;
-        font-size: 26px;
-        color: blue;
-        font-weight: 600;
-    }
+body {
+    padding-bottom: 50px;
+}
 
     .profile-container {
+        margin-left: 80px;
+        padding: 20px;
         display: grid;
-        grid-template-columns: repeat(auto-fit, minmax(220px, 1fr));
+        grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
         gap: 20px;
-        padding: 30px 40px 40px 120px;
     }
 
     .card {
         background-color: #f0f9ff;
         border: 1px solid #cfe2ff;
         border-radius: 12px;
-        padding: 30px;
+        padding: 25px;
         text-align: center;
-        font-size: 18px;
+        font-size: 16px;
         font-weight: bold;
-        
         cursor: pointer;
-        transition: transform 0.2s, box-shadow 0.3s;
+        transition: transform 0.2s, background-color 0.3s;
     }
 
         .card:hover {
             transform: scale(1.05);
-            
             background-color: #e0f0ff;
         }
 
-    .btn-primary {
-        background-color: #007bff;
-        border-color: #007bff;
-    }
 
-        .btn-primary:hover {
-            background-color: #0056b3;
-            border-color: #004b9a;
-        }
 </style>
