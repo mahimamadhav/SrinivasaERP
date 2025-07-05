@@ -26,13 +26,10 @@
         </div>
 
         <div class="tile-grid">
-            <div class="tile" onclick="location.href='/Login/Profile'" style="cursor: pointer;">
-                <i class="fas fa-user"></i> <span>Profile</span>
-            </div>
-
-            <div class="tile" ><i class="fas fa-sitemap"></i> <span>Hierarchy</span></div>
-            <div class="tile" onclick="location.href='/attendance/Index'"><i class="fas fa-calendar-alt"></i> <span>Attendance</span></div>
-            <div class="tile"><i class="fas fa-file-alt"></i> <span>Leave Management</span></div>
+            <div class="tile"><i class="fas fa-user" onclick="location.href='@Url.Action("PersonalDetails", "Profile")'"></i> <span>Profile</span></div>
+            <div class="tile"><i class="fas fa-sitemap"></i> <span>Hierarchy</span></div>
+            <div class="tile"><i class="fas fa-calendar-alt" onclick="location.href='@Url.Action("Index", "Attendance")'"></i> <span>Attendance</span></div>
+            <div class="tile"><i class="fas fa-file-alt" onclick="location.href='@Url.Action("LeaveManagement", "Leave")'"></i> <span>Leave Management</span></div>
             <div class="tile"><i class="fas fa-coins"></i> <span>Finance</span></div>
             <div class="tile"><i class="fas fa-check"></i> <span>Actions</span></div>
         </div>
@@ -82,13 +79,14 @@
         padding: 40px;
         border-top-left-radius: 30px;
         border-bottom-left-radius: 30px;
-        background-image: url('https://cdn.pixabay.com/photo/2017/08/06/14/12/bokeh-lights-2592859_1280.jpg');
+        background-image: linear-gradient(to bottom right, rgba(0, 0, 0, 0.4), rgba(0, 0, 0, 0.2)), url('https://media.istockphoto.com/id/1157979345/photo/road.jpg?s=612x612&w=0&k=20&c=4SGheF1vs56GMGE_GHiPPycdLF3ii-rXhwXLgqGUAFU=');
         background-size: cover;
         background-repeat: no-repeat;
         background-position: center;
         position: relative;
         z-index: 1;
     }
+
 
         .content > * {
             position: relative;
