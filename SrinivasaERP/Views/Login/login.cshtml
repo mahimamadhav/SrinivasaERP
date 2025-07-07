@@ -23,67 +23,228 @@
     <div class="alert alert-danger">@TempData["Error"]</div>
 }
 
+<style>
+    body {
+        margin: 0;
+        padding: 0;
+        font-family: 'Segoe UI', sans-serif;
+        background: linear-gradient(to right, rgba(0, 0, 0, 0.4), rgba(0, 0, 0, 0.6)), url("https://cdn.pixabay.com/photo/2022/05/22/11/10/highway-7213206_1280.jpg") no-repeat center center fixed;
+        min-height: 100vh;
+        /* display: flex;  */
+        justify-content: center; 
+        align-items: center;
+    }
+
+    .login-container {
+        display: flex;
+        background-color: rgba(255, 255, 255, 0.95);
+        border-radius: 20px;
+        overflow: hidden;
+        box-shadow: 0 10px 30px rgba(0, 0, 0, 0.3);
+        width: 90%;
+        max-width: 1000px;
+        margin-bottom: 100px; 
+        margin-left:10px;
+    }
+
+    .login-left,
+    .login-right {
+        flex: 1;
+        padding: 40px;
+    }
+
+    .login-left {
+        background: url('/Images/background-gradient.jpg'), linear-gradient(to bottom right, #007bff, #6610f2);
+        background-size: cover;
+        background-blend-mode: overlay;
+        color: white;
+        display: flex;
+        flex-direction: column;
+        align-items: center;
+        justify-content: center;
+        text-align: center;
+    }
+
+        .login-left img {
+            max-width: 80%;
+            height: auto;
+            margin-bottom: 20px;
+        }
+
+        .login-left h2 {
+            font-weight: bold;
+            font-size: 24px;
+        }
+
+    .login-right {
+        background-color: white;
+        display: flex;
+        flex-direction: column;
+        justify-content: center;
+        min-height: 400px; 
+    }
+
+        .login-right .logo {
+            max-height: 80px;
+            margin-bottom: 20px;
+        }
+
+        .login-right h2 {
+            text-align: center;
+            margin-bottom: 30px;
+            font-weight: 600;
+        }
+
+    .form-group {
+        margin-bottom: 20px;
+    }
+
+    .form-control {
+        border-radius: 10px;
+        padding: 12px 15px;
+        font-size: 15px;
+    }
+
+    .btn-primary {
+        width: 100%;
+        padding: 12px;
+        font-size: 16px;
+        border-radius: 10px;
+        font-weight: 600;
+        background: linear-gradient(to right, #0062E6, #33AEFF);
+        border: none;
+    }
+
+    .password-toggle {
+        position: absolute;
+        right: 12px;
+        top: 50%;
+        transform: translateY(-50%);
+        cursor: pointer;
+        color: #666;
+    }
+
+    .forgot-link {
+        text-align: center;
+        margin-top: 15px;
+    }
+
+    @@media (max-width: 768px) {
+        .login-container
+
+    {
+        flex-direction: column;
+    }
+
+    .login-left,
+    .login-right {
+        padding: 20px;
+    }
+
+        .login-left img {
+            max-width: 60%;
+        }
+
+    }
+
+    .login-heading {
+        font-family: 'Segoe UI', sans-serif;
+        font-size: 2.2rem;
+        background: linear-gradient(to right, #0062E6, #33AEFF);
+        -webkit-background-clip: text;
+        -webkit-text-fill-color: transparent;
+        animation: fadeIn 1s ease-in-out;
+        display: inline-block;
+    }
+
+    @@keyframes fadeIn {
+        from
+
+    {
+        opacity: 0;
+        transform: translateY(-10px);
+    }
+
+    to {
+        opacity: 1;
+        transform: translateY(0);
+    }
+
+    }
+
+    #eyeIcon {
+        padding-top: 30px;
+    }
 
 
-<div style="display: flex; min-height: 100vh;">
-    <div style="flex: 1; background-color: #f5f5f5; padding: 40px; text-align: center;">
-        <h2 style="color: #c00;">SRINIVASA TOURS & TRAVELS</h2>
-        <p style="font-size: 18px;">Reliable · Safe · Affordable</p>
-        <img src="~/Images/image.png" style="max-height: 500px; margin: 80px;" />
+</style>
+
+<div class="login-container">
+
+    <div class="login-left">
+        <h2>SRINIVASA TOURS & TRAVELS</h2>
+        <p>Reliable · Safe · Affordable</p>
+        <img src="/Images/image.png" alt="Mascot">
     </div>
+    <div class="login-right d-flex flex-column justify-content-center p-4 p-md-5 bg-white shadow-lg rounded-end-4">
+        <img src="~/Images/logo.png" class="img-fluid mx-auto mb-4" style="max-height: 80px;" alt="Logo" />
 
-    <div style="flex: 1; padding: 40px;">
-        <img src="~/Images/logo.png" style="max-height: 200px; margin: 40px;" />
-        <h2>Login</h2>
+        <h2 class="text-center fw-bold mb-4 login-heading">
+            <i class="fas fa-user-circle me-2 text-primary"></i>Login
+        </h2>
 
         <form asp-action="Login" method="post">
-            <div class="form-group">
-                <label asp-for="EmployeeIDOrEmail"></label>
-                <input asp-for="EmployeeIDOrEmail" name="EmployeeIDOrEmail" placeholder="EmployeeID Or Email" class="form-control" />
-                <span asp-validation-for="EmployeeIDOrEmail" class="text-danger"></span>
+            <!-- Employee ID / Email Field -->
+            <div class="mb-3">
+                <label asp-for="EmployeeIDOrEmail" class="form-label fw-semibold text-dark"></label>
+                <input asp-for="EmployeeIDOrEmail" name="EmployeeIDOrEmail" class="form-control form-control-lg shadow-sm" placeholder="Employee ID or Email" />
+                <span asp-validation-for="EmployeeIDOrEmail" class="text-danger small"></span>
             </div>
 
-            <div class="form-group">
-                <label asp-for="Password"></label>
-                <div style="position: relative;">
-                    <input asp-for="Password" name="Password" id="password" type="password" placeholder="Password" class="form-control" />
-                    <span onclick="togglePassword()" style="position: absolute; right: 10px; top: 8px; cursor: pointer;">
-                        <i class="fa fa-eye" id="eyeIcon"></i>
-                    </span>
-                </div>
-                <span asp-validation-for="Password" class="text-danger"></span>
+            <!-- Password Field with Toggle -->
+            <div class="mb-3 position-relative">
+                <label asp-for="Password" class="form-label fw-semibold text-dark"></label>
+                <input asp-for="Password" name="Password" id="password" type="password" class="form-control form-control-lg shadow-sm" placeholder="Password" />
+                <span class="position-absolute top-50 end-0 translate-middle-y pe-3" onclick="togglePassword()" style="cursor:pointer;">
+                    <i class="fa fa-eye text-secondary" id="eyeIcon"></i>
+                </span>
+                <span asp-validation-for="Password" class="text-danger small"></span>
             </div>
 
-            <button type="submit" class="btn btn-primary mt-3" id="button-send" disabled>Login</button>
+            <!-- Login Button -->
+            <div class="d-grid mb-3">
+                <button type="submit" class="btn btn-primary btn-lg fw-bold shadow" id="button-send" disabled>
+                    <i class="fas fa-sign-in-alt me-2"></i>Login
+                </button>
+            </div>
+
+            <!-- Forgot Password -->
+            <div class="text-center">
+                <a asp-controller="Login" asp-action="ForgotPassword"
+                   class="text-decoration-none text-primary fw-medium"
+                   data-bs-toggle="tooltip" title="Click here">
+                    Forgot Password?
+                </a>
+            </div>
         </form>
-
-        <p class="mt-3">
-            <a asp-controller="Login" asp-action="ForgotPassword"
-               data-bs-toggle="tooltip" data-bs-placement="top" title="CLICK HERE"
-               style="text-decoration: none; color: blue; cursor: pointer;">
-                Forgot Password?
-            </a>
-        </p>
     </div>
 </div>
+
 
 <script>
     let inputs = document.querySelectorAll('input');
     let buttonSend = document.getElementById('button-send');
 
-    // Initialize validator based on existing input values
     let inputValidator = {
         "EmployeeIDOrEmail": document.querySelector('[name="EmployeeIDOrEmail"]').value.trim().length > 0,
         "Password": document.querySelector('[name="Password"]').value.trim().length > 0
     };
 
-    // Enable or disable button based on current state
     function updateButtonState() {
         const allValid = Object.values(inputValidator).every(value => value === true);
         buttonSend.disabled = !allValid;
     }
 
-    // Add input event listeners
     inputs.forEach((input) => {
         input.addEventListener('input', (event) => {
             let name = event.target.getAttribute('name');
@@ -95,12 +256,10 @@
         });
     });
 
-    // Run once on page load (important after postback)
     window.addEventListener('DOMContentLoaded', () => {
         updateButtonState();
     });
 
-    // Password toggle
     function togglePassword() {
         var input = document.getElementById("password");
         var icon = document.getElementById("eyeIcon");
@@ -116,7 +275,6 @@
         }
     }
 
-    // Bootstrap tooltips
     var tooltipTriggerList = [].slice.call(document.querySelectorAll('[data-bs-toggle="tooltip"]'));
     var tooltipList = tooltipTriggerList.map(function (tooltipTriggerEl) {
         return new bootstrap.Tooltip(tooltipTriggerEl);
