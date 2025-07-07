@@ -2,6 +2,14 @@
     Layout = null;
 }
 
+@{
+    var today = DateTime.Today;
+    var nextMonthEnd = new DateTime(today.Year, today.Month, 1)
+                        .AddMonths(2)      // move to the month after next
+                        .AddDays(-1);      // subtract 1 day to get last day of next month
+}
+
+
 <!DOCTYPE html>
 <html>
 <head>
@@ -12,6 +20,7 @@
         body {
             margin: 0;
             font-family: Arial, sans-serif;
+            
             
         }
 
@@ -62,52 +71,100 @@
                 border-color: #4a90e2;
                 font-weight: bold;
             }
+            
+.form-container {
+    width: 400px;
+    margin: 80px auto;
+    padding: 40px 30px;
+    background: rgba(0, 0, 0, 0.8);
+    color: #fff;
+    border-radius: 15px;
+    box-shadow: 0 10px 30px rgba(0, 0, 0, 0.6);
+    display: flex;
+    flex-direction: column;
+    animation: fadeIn 1.2s ease-in-out;
+}
 
-              .form-container {
-        width: 400px;
-        margin: 50px auto;
-        padding: 20px;
-      
-    }
+/* Form fade-in animation */
 
-    
+
+h2 {
+    text-align: center;
+    color: #ff4f4f;
+    margin-bottom: 30px;
+    text-shadow: 1px 1px 5px black;
+}
+
 .form-group {
-        display: flex;
-        flex-direction: column;
-        margin-bottom: 15px;
+    display: flex;
+    flex-direction: column;
+    margin-bottom: 20px;
+    width: 100%;
+}
+
+label {
+    margin-bottom: 6px;
+    font-weight: bold;
+    font-size: 15px;
+}
+
+select,
+input[type="date"] {
+    padding: 10px;
+    border: 1px solid #555;
+    border-radius: 6px;
+    font-size: 15px;
+    background-color: #222;
+    color: white;
+    transition: 0.3s ease;
+}
+
+select:focus,
+input[type="date"]:focus {
+    border-color: #00ffff;
+    outline: none;
+    box-shadow: 0 0 5px #00ffff;
+}
+
+button {
+    padding: 12px;
     
-    }
+    background: linear-gradient(45deg, #00bcd4, #2196f3);
+    border: none;
+    color: white;
+    font-size: 16px;
+    border-radius: 6px;
+    cursor: pointer;
+    transition: background 0.4s ease;
+    box-shadow: 0 0 10px rgba(0, 255, 255, 0.3);
+}
 
-    label {
-        margin-bottom: 5px;
-        font-weight: bold;
-    }
+button:hover {
+    background: linear-gradient(45deg, #2196f3, #00bcd4);
+    box-shadow: 0 0 15px rgba(0, 255, 255, 0.6);
+}
 
-    select,
-    input[type="date"],
-    button {
-        padding: 8px;
-        border: 1px solid #ccc;
-        border-radius: 5px;
-        font-size: 14px;
-    }
+#dateError {
+    font-size: 13px;
+    color: red;
+    text-align: center;
+}
+       
 
-    button {
-        background-color: #007bff;
-        color: white;
-        border: none;
-        cursor: pointer;
-        transition: background-color 0.3s ease;
-    }
-
-        button:hover {
-            background-color: #0056b3;
+  input[type="date"]::-webkit-calendar-picker-indicator {
+            filter: invert(1);
+            cursor: pointer;
         }
 
-    #dateError {
-        font-size: 13px;
+         input[type="date"]::-webkit-calendar-picker-indicator {
+        filter: invert(1); /* Makes the icon white */
+        cursor: pointer;
     }
-       
+     input[type="date"] {
+        background-color: black;
+        color: lightpink;
+        border: 1px solid #777;
+    }
 
        
     </style>
@@ -142,8 +199,8 @@
     @using (Html.BeginForm("Leave", "Attendance", FormMethod.Post))
     {
         <div class="form-group">
-            <label for="LeaveType">Leave Type:</label>
-            <select id="LeaveType" name="LeaveType">
+            <label for="LeaveType">Leave Type: </label>
+            <select id="LeaveType" name="LeaveType" required>
                 <option value="">-- Select Leave Type --</option>
                 <option value="Sick">Sick Leave</option>
                 <option value="Casual">Casual Leave</option>
@@ -151,22 +208,29 @@
             </select>
         </div>
 
+       
+
+
         <div class="form-group">
             <label for="StartDate">Start Date:</label>
-            <input type="date" id="StartDate" name="StartDate" />
+            <input type="date" id="StartDate" name="StartDate" required  min="@today.ToString("yyyy-MM-dd")"  max="@nextMonthEnd.ToString("yyyy-MM-dd")" />
         </div>
 
         <div class="form-group">
             <label for="EndDate">End Date:</label>
-            <input type="date" id="EndDate" name="EndDate" />
+            <input type="date" id="EndDate" name="EndDate" required  min="@today.ToString("yyyy-MM-dd")" max="@nextMonthEnd.ToString("yyyy-MM-dd")"/>
         </div>
 
         <span id="dateError" style="color: red;"></span>
 
         <br />
 
-       
-    <button type="submit" class="btn btn-primary" onclick="return validateForm()">Submit</button>
+       <div style="text-align:center">
+    <button type="submit" class="btn btn-primary btn-ghost" onclick="return validateForm()">Submit</button>
+    </div>
+
+
+ 
 
     }
 </div>
