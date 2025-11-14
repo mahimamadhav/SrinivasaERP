@@ -1,5 +1,4 @@
 ﻿using Microsoft.EntityFrameworkCore;
-using System.Collections.Generic;
 using SrinivasaERP.Models;
 
 namespace SrinivasaERP.Data
@@ -10,6 +9,6 @@ namespace SrinivasaERP.Data
 
         public DbSet<Register> Registers { get; set; }
         public DbSet<ApplyLeave> ApplyLeaves { get; set; }
-
+        public DbSet<CurrentAddress> CurrentAddresses { get; set; } 
     }
 }
